@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dhaka-6 Intelligence Dashboard 2026</title>
+<title>Dhaka-6 Election Intelligence Dashboard 2026</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 body{font-family:Arial;background:#f1f5f9;margin:0}
 header{background:#0f172a;color:white;text-align:center;padding:25px}
 .container{max-width:1200px;margin:auto;padding:20px}
+.section{margin-top:40px}
+.card{background:white;padding:18px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.1);margin-bottom:15px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
-.card{background:white;padding:18px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-button{padding:8px 16px;margin:5px;border:none;background:#334155;color:white;border-radius:6px;cursor:pointer}
+button{padding:8px 14px;margin:5px;border:none;border-radius:6px;background:#334155;color:white;cursor:pointer}
 .flag-red{color:#ef4444;font-weight:bold}
 .flag-green{color:#10b981;font-weight:bold}
-.section{margin-top:40px}
 </style>
 </head>
 
@@ -22,11 +22,21 @@ button{padding:8px 16px;margin:5px;border:none;background:#334155;color:white;bo
 
 <header>
 <h1>Dhaka-6 Election Intelligence Unit</h1>
-<p>Professional Campaign Dashboard</p>
+<p>Gendaria • Sutrapur • Kotwali • Bangshal</p>
 </header>
 
 <div class="container">
 
+<!-- Executive Summary -->
+<div class="section card">
+<h2>Executive Summary</h2>
+<p>
+Dhaka-6 seat is expected to witness a primary contest between BNP candidate Ishraq Hossain and Jamaat candidate Abdul Mannan.
+Business voters, youth swing voters, and organizational turnout will determine the final margin.
+</p>
+</div>
+
+<!-- Candidate Radar -->
 <div class="section">
 <h2>Candidate Radar</h2>
 
@@ -37,33 +47,48 @@ button{padding:8px 16px;margin:5px;border:none;background:#334155;color:white;bo
 <div id="cards" class="grid"></div>
 </div>
 
+<!-- Wealth vs Income -->
 <div class="section">
-<h2>Wealth vs Income Forensics</h2>
-<canvas id="chart"></canvas>
+<h2>Wealth vs Income Forensic Analysis</h2>
+<canvas id="wealthChart"></canvas>
 </div>
 
+<!-- Zone Map -->
+<div class="section">
+<h2>Tactical Zone Map</h2>
+<button onclick="zone('gendaria')">Gendaria</button>
+<button onclick="zone('sutrapur')">Sutrapur</button>
+<button onclick="zone('kotwali')">Kotwali</button>
+<button onclick="zone('bangshal')">Bangshal</button>
+
+<div id="zoneText" class="card"></div>
+</div>
+
+<!-- Decision Wizard -->
 <div class="section">
 <h2>Decision Wizard</h2>
 <button onclick="recommend('stability')">Strong Government</button>
 <button onclick="recommend('clean')">Clean Politics</button>
 <button onclick="recommend('youth')">New Politics</button>
+
 <div id="wizardResult" class="card"></div>
 </div>
 
+<!-- Probability Forecast -->
 <div class="section">
 <h2>Vote Probability Forecast</h2>
-<canvas id="forecast"></canvas>
+<canvas id="forecastChart"></canvas>
 </div>
 
 </div>
 
 <script>
 
-const data=[
+const candidates=[
 {name:"Ishraq Hossain",party:"BNP",income:129,wealth:556,cases:5,type:"heavy",clean:false},
-{name:"Abdul Mannan",party:"Jamaat",income:7,wealth:48,cases:21,type:"heavy",clean:false},
+{name:"Abdul Mannan",party:"Jamaat-e-Islami",income:7,wealth:48,cases:21,type:"heavy",clean:false},
 {name:"Fakhrul Islam",party:"Gono Odhikar",income:5,wealth:20,cases:0,type:"youth",clean:true},
-{name:"Amiruddin Dalu",party:"Jatiya Party",income:10,wealth:60,cases:0,type:"mid",clean:true},
+{name:"Amiruddin Ahmed Dalu",party:"Jatiya Party",income:10,wealth:60,cases:0,type:"mid",clean:true},
 {name:"Ahmed Ali Sheikh",party:"Gonofront",income:6,wealth:30,cases:0,type:"mid",clean:true}
 ];
 
@@ -74,39 +99,50 @@ document.getElementById("cards").innerHTML+=`
 <div class="card">
 <h3>${c.name}</h3>
 <p>${c.party}</p>
-<p>Income ${c.income} | Wealth ${c.wealth}</p>
+<p>Income: ${c.income} lakh | Wealth: ${c.wealth} lakh</p>
 <p class="${c.cases>0?'flag-red':'flag-green'}">
-${c.cases>0?`Red Flag: ${c.cases} cases`:'Green Flag: Clean Record'}
+${c.cases>0?`Red Flag: ${c.cases} cases`:'Green Flag: Clean record'}
 </p>
 </div>`;
 });
 }
-render(data);
+render(candidates);
 
 function filter(type){
-if(type==="all") render(data);
-if(type==="clean") render(data.filter(c=>c.clean));
-if(type==="heavy") render(data.filter(c=>c.type==="heavy"));
+if(type==="all") render(candidates);
+if(type==="clean") render(candidates.filter(c=>c.clean));
+if(type==="heavy") render(candidates.filter(c=>c.type==="heavy"));
 }
 
-new Chart(document.getElementById("chart"),{
+new Chart(document.getElementById("wealthChart"),{
 type:'scatter',
-data:{datasets:data.map(c=>({label:c.name,data:[{x:c.income,y:c.wealth}],pointRadius:8}))}
+data:{datasets:candidates.map(c=>({label:c.name,data:[{x:c.income,y:c.wealth}],pointRadius:8}))}
 });
+
+const zones={
+gendaria:"Business-dominated voter base. Security and extortion key issues.",
+sutrapur:"Mixed residential voters. Youth swing voters rising.",
+kotwali:"Traditional political stronghold with mixed loyalty.",
+bangshal:"Wholesale trader turnout determines election margin."
+};
+
+function zone(z){
+document.getElementById("zoneText").innerHTML=zones[z];
+}
 
 function recommend(type){
 let res="";
-if(type==="stability") res="Recommended: Ishraq Hossain (BNP) – strongest organizational base";
-if(type==="clean") res="Recommended: Fakhrul Islam – clean image";
-if(type==="youth") res="Recommended: Fakhrul Islam – youth candidate";
+if(type==="stability") res="Recommended: Ishraq Hossain — strongest organizational backing.";
+if(type==="clean") res="Recommended: Fakhrul Islam — clean image candidate.";
+if(type==="youth") res="Recommended: Fakhrul Islam — youth-centric politics.";
 document.getElementById("wizardResult").innerHTML=res;
 }
 
-new Chart(document.getElementById("forecast"),{
+new Chart(document.getElementById("forecastChart"),{
 type:'bar',
 data:{
 labels:["Ishraq","Mannan","Fakhrul","Dalu","Ahmed"],
-datasets:[{data:[48,32,10,6,4]}]
+datasets:[{label:"Win Probability %",data:[48,32,10,6,4]}]
 }
 });
 
