@@ -2,117 +2,76 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dhaka-6 Election Intelligence Dashboard 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhaka-6 Election Intelligence Unit | 2026</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body{font-family:Arial;background:#f1f5f9;margin:0}
-header{background:#0f172a;color:white;text-align:center;padding:25px}
-.container{max-width:1200px;margin:auto;padding:20px}
-.section{margin-top:40px}
-.card{background:white;padding:18px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.1);margin-bottom:15px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
-button{padding:8px 14px;margin:5px;border:none;border-radius:6px;background:#334155;color:white;cursor:pointer}
-.flag-red{color:#ef4444;font-weight:bold}
-.flag-green{color:#10b981;font-weight:bold}
+body{font-family:Inter, sans-serif}
+.chart-container{height:350px}
 </style>
 </head>
 
-<body>
+<body class="bg-slate-50">
 
-<header>
-<h1>Dhaka-6 Election Intelligence Unit</h1>
+<header class="bg-slate-900 text-white p-6 text-center">
+<h1 class="text-3xl font-bold">Dhaka-6 Intelligence Unit</h1>
 <p>Gendaria • Sutrapur • Kotwali • Bangshal</p>
 </header>
 
-<div class="container">
+<section class="p-10">
+<h2 class="text-2xl font-bold mb-6">Candidate Radar</h2>
+<div id="cards" class="grid md:grid-cols-3 gap-6"></div>
+</section>
 
-<!-- Executive Summary -->
-<div class="section card">
-<h2>Executive Summary</h2>
-<p>
-Dhaka-6 seat is expected to witness a primary contest between BNP candidate Ishraq Hossain and Jamaat candidate Abdul Mannan.
-Business voters, youth swing voters, and organizational turnout will determine the final margin.
-</p>
-</div>
+<section class="p-10 bg-white">
+<h2 class="text-2xl font-bold mb-6">Forensic Wealth Analysis</h2>
+<div class="chart-container"><canvas id="wealthChart"></canvas></div>
+</section>
 
-<!-- Candidate Radar -->
-<div class="section">
-<h2>Candidate Radar</h2>
+<section class="p-10">
+<h2 class="text-2xl font-bold mb-6">Tactical Zone Map</h2>
 
-<button onclick="filter('all')">All</button>
-<button onclick="filter('clean')">Clean Image</button>
-<button onclick="filter('heavy')">Heavyweight</button>
+<button onclick="zone('gendaria')" class="px-3 py-2 bg-slate-800 text-white m-2">Gendaria</button>
+<button onclick="zone('sutrapur')" class="px-3 py-2 bg-slate-800 text-white m-2">Sutrapur</button>
+<button onclick="zone('kotwali')" class="px-3 py-2 bg-slate-800 text-white m-2">Kotwali</button>
+<button onclick="zone('bangshal')" class="px-3 py-2 bg-slate-800 text-white m-2">Bangshal</button>
 
-<div id="cards" class="grid"></div>
-</div>
+<div id="zoneText" class="mt-6 p-5 bg-white shadow rounded"></div>
+</section>
 
-<!-- Wealth vs Income -->
-<div class="section">
-<h2>Wealth vs Income Forensic Analysis</h2>
-<canvas id="wealthChart"></canvas>
-</div>
+<section class="p-10 bg-slate-900 text-white text-center">
+<h2 class="text-2xl font-bold mb-6">Decision Wizard</h2>
 
-<!-- Zone Map -->
-<div class="section">
-<h2>Tactical Zone Map</h2>
-<button onclick="zone('gendaria')">Gendaria</button>
-<button onclick="zone('sutrapur')">Sutrapur</button>
-<button onclick="zone('kotwali')">Kotwali</button>
-<button onclick="zone('bangshal')">Bangshal</button>
+<button onclick="recommend('stability')" class="bg-yellow-400 text-black px-4 py-2 m-2">Strong Leadership</button>
+<button onclick="recommend('clean')" class="bg-green-400 text-black px-4 py-2 m-2">Clean Image</button>
+<button onclick="recommend('youth')" class="bg-blue-400 text-black px-4 py-2 m-2">Youth Politics</button>
 
-<div id="zoneText" class="card"></div>
-</div>
-
-<!-- Decision Wizard -->
-<div class="section">
-<h2>Decision Wizard</h2>
-<button onclick="recommend('stability')">Strong Government</button>
-<button onclick="recommend('clean')">Clean Politics</button>
-<button onclick="recommend('youth')">New Politics</button>
-
-<div id="wizardResult" class="card"></div>
-</div>
-
-<!-- Probability Forecast -->
-<div class="section">
-<h2>Vote Probability Forecast</h2>
-<canvas id="forecastChart"></canvas>
-</div>
-
-</div>
+<div id="wizard" class="mt-6 text-xl"></div>
+</section>
 
 <script>
 
 const candidates=[
-{name:"Ishraq Hossain",party:"BNP",income:129,wealth:556,cases:5,type:"heavy",clean:false},
-{name:"Abdul Mannan",party:"Jamaat-e-Islami",income:7,wealth:48,cases:21,type:"heavy",clean:false},
-{name:"Fakhrul Islam",party:"Gono Odhikar",income:5,wealth:20,cases:0,type:"youth",clean:true},
-{name:"Amiruddin Ahmed Dalu",party:"Jatiya Party",income:10,wealth:60,cases:0,type:"mid",clean:true},
-{name:"Ahmed Ali Sheikh",party:"Gonofront",income:6,wealth:30,cases:0,type:"mid",clean:true}
+{name:"Ishraq Hossain",party:"BNP",income:129,wealth:556,cases:5},
+{name:"Abdul Mannan",party:"Jamaat",income:7,wealth:48,cases:21},
+{name:"Fakhrul Islam",party:"Gono Odhikar",income:5,wealth:20,cases:0},
+{name:"Amiruddin Dalu",party:"Jatiya Party",income:10,wealth:60,cases:0},
+{name:"Ahmed Ali Sheikh",party:"Gonofront",income:6,wealth:30,cases:0}
 ];
 
-function render(list){
-document.getElementById("cards").innerHTML="";
-list.forEach(c=>{
+candidates.forEach(c=>{
 document.getElementById("cards").innerHTML+=`
-<div class="card">
-<h3>${c.name}</h3>
+<div class="bg-white p-5 rounded shadow">
+<h3 class="font-bold text-lg">${c.name}</h3>
 <p>${c.party}</p>
-<p>Income: ${c.income} lakh | Wealth: ${c.wealth} lakh</p>
-<p class="${c.cases>0?'flag-red':'flag-green'}">
-${c.cases>0?`Red Flag: ${c.cases} cases`:'Green Flag: Clean record'}
-</p>
+<p>Income: ${c.income} lakh</p>
+<p>Wealth: ${c.wealth} lakh</p>
+<p>${c.cases>0?"🚩 "+c.cases+" cases":"✅ Clean record"}</p>
 </div>`;
 });
-}
-render(candidates);
-
-function filter(type){
-if(type==="all") render(candidates);
-if(type==="clean") render(candidates.filter(c=>c.clean));
-if(type==="heavy") render(candidates.filter(c=>c.type==="heavy"));
-}
 
 new Chart(document.getElementById("wealthChart"),{
 type:'scatter',
@@ -120,33 +79,20 @@ data:{datasets:candidates.map(c=>({label:c.name,data:[{x:c.income,y:c.wealth}],p
 });
 
 const zones={
-gendaria:"Business-dominated voter base. Security and extortion key issues.",
-sutrapur:"Mixed residential voters. Youth swing voters rising.",
-kotwali:"Traditional political stronghold with mixed loyalty.",
-bangshal:"Wholesale trader turnout determines election margin."
+gendaria:"Business voters dominant. Security & extortion major issue.",
+sutrapur:"Youth swing voters rising.",
+kotwali:"Mixed voter loyalty zone.",
+bangshal:"Trader turnout decides final margin."
 };
 
-function zone(z){
-document.getElementById("zoneText").innerHTML=zones[z];
-}
+function zone(z){document.getElementById("zoneText").innerHTML=zones[z];}
 
 function recommend(type){
-let res="";
-if(type==="stability") res="Recommended: Ishraq Hossain — strongest organizational backing.";
-if(type==="clean") res="Recommended: Fakhrul Islam — clean image candidate.";
-if(type==="youth") res="Recommended: Fakhrul Islam — youth-centric politics.";
-document.getElementById("wizardResult").innerHTML=res;
+if(type=="stability") document.getElementById("wizard").innerHTML="Recommended: Ishraq Hossain";
+if(type=="clean") document.getElementById("wizard").innerHTML="Recommended: Fakhrul Islam";
+if(type=="youth") document.getElementById("wizard").innerHTML="Recommended: Fakhrul Islam";
 }
-
-new Chart(document.getElementById("forecastChart"),{
-type:'bar',
-data:{
-labels:["Ishraq","Mannan","Fakhrul","Dalu","Ahmed"],
-datasets:[{label:"Win Probability %",data:[48,32,10,6,4]}]
-}
-});
 
 </script>
-
 </body>
 </html>
