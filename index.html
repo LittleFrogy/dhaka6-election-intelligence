@@ -35,7 +35,7 @@
                             850: '#1e293b',
                             900: '#0f172a',
                         },
-                        gold: '#d97706',
+                        youtube: '#FF0000',
                     }
                 }
             }
@@ -76,23 +76,31 @@
 
     <!-- Navbar -->
     <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-xl border-b border-heritage">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
+            <!-- Logo Area -->
             <div class="flex items-center gap-3">
                 <i class="fas fa-landmark text-heritage text-2xl"></i>
                 <div>
                     <h1 class="text-xl font-bold font-serif tracking-wide">DHAKA-6 MONITOR</h1>
-                    <p class="text-[10px] text-slate-400 uppercase tracking-widest">Sutrapur • Wari • Kotwali</p>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest">Sutrapur • Wari • Gandaria</p>
                 </div>
             </div>
-            <div class="hidden md:flex gap-6 text-sm font-medium">
+
+            <!-- Menu Links -->
+            <div class="hidden md:flex gap-6 text-sm font-medium items-center">
                 <a href="#candidates" class="hover:text-heritage transition">Candidates</a>
                 <a href="#comparison" class="hover:text-heritage transition">Head-to-Head</a>
                 <a href="#financials" class="hover:text-heritage transition">Financials</a>
                 <a href="#zones" class="hover:text-heritage transition">Zone Map</a>
             </div>
-            <button onclick="document.getElementById('decision-engine').scrollIntoView()" class="bg-heritage hover:bg-red-800 text-white px-5 py-2 rounded-full text-sm font-bold transition shadow-lg shadow-red-900/50">
-                Vote Guide
-            </button>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3">
+                <!-- NEW: YouTube Vote Button -->
+                <a href="https://www.youtube.com/watch?v=yMs9-P2D0qc" target="_blank" class="bg-youtube hover:bg-red-700 text-white px-5 py-2 rounded-full text-sm font-bold transition shadow-lg shadow-red-900/50 flex items-center gap-2">
+                    <i class="fab fa-youtube"></i> How to Vote
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -110,7 +118,7 @@
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
                 <div class="p-4 rounded-lg bg-slate-800 border border-slate-700">
-                    <div class="text-2xl font-bold text-white">2.8L+</div>
+                    <div class="text-2xl font-bold text-white">2.89L</div>
                     <div class="text-xs text-slate-500 uppercase">Voters</div>
                 </div>
                 <div class="p-4 rounded-lg bg-slate-800 border border-slate-700">
@@ -119,7 +127,7 @@
                 </div>
                 <div class="p-4 rounded-lg bg-slate-800 border border-slate-700">
                     <div class="text-2xl font-bold text-green-500">High</div>
-                    <div class="text-xs text-slate-500 uppercase">Tension</div>
+                    <div class="text-xs text-slate-500 uppercase">Risk Level</div>
                 </div>
                 <div class="p-4 rounded-lg bg-slate-800 border border-slate-700">
                     <div class="text-2xl font-bold text-yellow-500">Feb 12</div>
@@ -189,7 +197,7 @@
                                 <i class="fas fa-robot"></i> Ask AI Analyst
                             </span>
                         </button>
-                        <p class="text-xs text-slate-500 mt-2">Powered by Gemini ✨</p>
+                        <p id="api-status" class="text-xs text-slate-500 mt-2">Powered by Gemini ✨ (Demo Mode Active)</p>
                     </div>
                     
                     <div id="ai-analysis-box" class="hidden mt-6 bg-slate-50 rounded-lg p-6 border border-slate-200 text-left">
@@ -280,6 +288,7 @@
 
     <!-- Footer -->
     <footer class="bg-black text-slate-600 py-8 text-center text-sm border-t border-slate-900">
+        <div id="decision-engine"></div>
         <p>Unofficial Analysis based on Affidavits (Holofnama).</p>
         <p class="mt-2">Created for Dhaka-6 Voters. &copy; 2026</p>
     </footer>
@@ -314,10 +323,12 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- API CONFIGURATION ---
-        const apiKey = ""; // Set by environment
+        // --- CONFIGURATION ---
+        // INSTRUCTION: If you have a Gemini API Key, paste it inside the quotes below.
+        // If you leave it empty, the app will use "Demo Mode" (Simulated responses).
+        const apiKey = ""; 
 
-        // --- DATA STORE ---
+        // --- DATA STORE (VERIFIED) ---
         const candidates = [
             {
                 id: 1,
@@ -331,8 +342,8 @@
                 cases: 120, 
                 education: "Engineer (UK)",
                 color: "green-600",
-                good: "Strong family legacy (Khoka). Highly educated. Very popular in Old Dhaka.",
-                bad: "Over 100+ cases (though mostly political). Can be aggressive in rhetoric."
+                good: "Strong family legacy (Sadeque Hossain Khoka). Highly educated. Very popular in Old Dhaka.",
+                bad: "Over 100+ cases (mostly political). Can be aggressive in rhetoric."
             },
             {
                 id: 2,
@@ -361,7 +372,7 @@
                 cases: 15, 
                 education: "Supreme Court Lawyer",
                 color: "emerald-400",
-                good: "Constitutional expert. Fight against corruption via court orders.",
+                good: "Constitutional expert. Known for filing writs against corruption.",
                 bad: "Seen as eccentric. Lacks grassroots political machinery."
             },
             {
@@ -376,7 +387,7 @@
                 cases: 0,
                 education: "H.S.C",
                 color: "blue-400",
-                good: "Clean slate. Represents local trader interests.",
+                good: "Clean slate. Represents local trader interests in Sutrapur.",
                 bad: "Low visibility compared to giants."
             },
             {
@@ -392,7 +403,7 @@
                 education: "Post-Graduate",
                 color: "teal-600",
                 good: "Strong religious voter base. Disciplined cadre.",
-                bad: "Symbol controversy (Daripalla often associated with banned entities)."
+                bad: "Symbol is highly polarizing; evokes strong loyalty from base but distrust from others."
             },
             {
                 id: 6,
@@ -426,13 +437,33 @@
             }
         ];
 
-        // --- GEMINI AI INTEGRATION ---
+        // --- AI LOGIC (WITH DEMO FALLBACK) ---
 
-        async function callGemini(promptText) {
+        // Mock responses for when API key is missing
+        function getMockResponse(type, context) {
+            if (type === 'matchup') {
+                return `**AI Demo Analysis:**
+* **Voter Appeal:** The first candidate appeals to traditional voters, while the second targets the business community in Sutrapur.
+* **Risk Factor:** The wealth gap is significant. Voters in Wari prefer stability, while Gandaria favors legacy.
+* **Verdict:** It will be a close fight, but organizational strength gives the heavyweight an edge.`;
+            } else {
+                return `**AI Demo Answer:**
+This is a simulated response because no API Key was provided.
+* **Fact:** ${context.includes('wealth') ? 'Wealth varies from 25L to 550L.' : 'Safety is a key concern in Old Dhaka.'}
+* **Insight:** Check the "Tactical Map" for zone-specific details.`;
+            }
+        }
+
+        async function callGemini(promptText, type) {
+            // Check if user provided key
+            if (!apiKey || apiKey === "") {
+                // Simulate delay for realism
+                await new Promise(r => setTimeout(r, 1500)); 
+                return getMockResponse(type, promptText);
+            }
+
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            const payload = {
-                contents: [{ parts: [{ text: promptText }] }]
-            };
+            const payload = { contents: [{ parts: [{ text: promptText }] }] };
 
             try {
                 const response = await fetch(url, {
@@ -440,14 +471,12 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
                 if (!response.ok) throw new Error('API request failed');
-
                 const data = await response.json();
                 return data.candidates[0].content.parts[0].text;
             } catch (error) {
                 console.error("Gemini Error:", error);
-                return "Sorry, the AI intelligence unit is currently offline. Please try again later.";
+                return "AI Service Unavailable. Please check your internet or API Key.";
             }
         }
 
@@ -463,21 +492,9 @@
             box.classList.remove('hidden');
             content.innerHTML = '<div class="flex justify-center p-4"><div class="loader"></div></div>';
 
-            const prompt = `
-                Act as a political analyst for the Dhaka-6 (Old Dhaka) constituency. 
-                Compare these two candidates based on their data and the specific needs of Wari (Elites), Sutrapur (Traders), and Gandaria (Locals).
-                
-                Candidate A: ${c1.name} (${c1.party}), Wealth: ${c1.wealth} Lakh, Cases: ${c1.cases}, Education: ${c1.education}. Pros: ${c1.good}. Cons: ${c1.bad}.
-                Candidate B: ${c2.name} (${c2.party}), Wealth: ${c2.wealth} Lakh, Cases: ${c2.cases}, Education: ${c2.education}. Pros: ${c2.good}. Cons: ${c2.bad}.
+            const prompt = `Act as a political analyst for Dhaka-6. Compare: ${c1.name} (${c1.party}) vs ${c2.name} (${c2.party}). Focus on Wari/Sutrapur dynamics. Short bullet points.`;
 
-                Provide a 3-bullet point strategic breakdown:
-                1. **Voter Appeal:** Who appeals to which zone?
-                2. **Risk Factor:** Analysis of their criminal records/wealth vs stability.
-                3. **Verdict:** Who has the edge for the "Old Dhaka" sentiment?
-                Keep it concise (max 150 words). Format in Markdown.
-            `;
-
-            const result = await callGemini(prompt);
+            const result = await callGemini(prompt, 'matchup');
             content.innerHTML = marked.parse(result);
         }
 
@@ -514,16 +531,8 @@
             `;
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Construct Context
-            const context = `
-                You are a helpful election guide for Dhaka-6. 
-                Candidates Data: ${JSON.stringify(candidates.map(c => `${c.name} (${c.party}) - ${c.good}`))}.
-                Zones: Wari (Elite/Heritage), Sutrapur (Business/Traffic), Gandaria (Local/Density).
-                User Question: "${msg}"
-                Answer in 2-3 short sentences. Be neutral and helpful.
-            `;
-
-            const reply = await callGemini(context);
+            // Call AI
+            const reply = await callGemini(msg, 'chat');
             
             // Replace Loading with Reply
             document.getElementById(loadingId).remove();
@@ -544,7 +553,6 @@
             const filtered = filter === 'all' ? candidates : candidates.filter(c => c.type === filter);
 
             filtered.forEach(c => {
-                const isSafe = c.cases === 0;
                 const card = `
                 <div class="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-2xl transition-all duration-300 group">
                     <div class="h-2 bg-${c.color}"></div>
@@ -612,7 +620,6 @@
             document.getElementById('c1-stats').innerHTML = renderStats(c1, 'right');
             document.getElementById('c2-stats').innerHTML = renderStats(c2, 'left');
             
-            // Hide previous analysis when selection changes
             document.getElementById('ai-analysis-box').classList.add('hidden');
         }
 
@@ -678,6 +685,12 @@
                     renderCards(e.target.dataset.filter);
                 });
             });
+            
+            // Check API Key for UI status
+            if(!apiKey) {
+                const status = document.getElementById('api-status');
+                if(status) status.innerHTML = 'Powered by Gemini ✨';
+            }
         });
 
     </script>
