@@ -17,6 +17,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Marked Library for Markdown Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <!-- Theme Configuration: Old Dhaka Heritage Style -->
     <script>
         tailwind.config = {
@@ -47,9 +50,29 @@
         ::-webkit-scrollbar-thumb { background: #9A3412; border-radius: 4px; }
         /* Glassmorphism */
         .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        
+        /* Markdown Styles */
+        .markdown-body p { margin-bottom: 0.75em; }
+        .markdown-body strong { font-weight: 700; color: #9A3412; }
+        .markdown-body ul { list-style-type: disc; margin-left: 1.5em; margin-bottom: 0.75em; }
+
+        /* Loading Animation */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #9A3412;
+            width: 24px;
+            height: 24px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="bg-slate-50 text-slate-800 antialiased relative">
 
     <!-- Navbar -->
     <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-xl border-b border-heritage">
@@ -125,7 +148,7 @@
         </div>
     </section>
 
-    <!-- Section: Head-to-Head Comparison (New Feature) -->
+    <!-- Section: Head-to-Head Comparison (AI Enhanced) -->
     <section id="comparison" class="py-16 bg-slate-100 border-y border-slate-200">
         <div class="container mx-auto px-4">
             <h3 class="text-3xl font-serif font-bold text-center text-slate-900 mb-8">Head-to-Head</h3>
@@ -141,7 +164,7 @@
                     </select>
                 </div>
 
-                <div class="grid grid-cols-3 gap-4 text-center items-center">
+                <div class="grid grid-cols-3 gap-4 text-center items-center mb-6">
                     <!-- Candidate 1 Stats -->
                     <div id="c1-stats" class="text-right space-y-4"></div>
                     
@@ -155,6 +178,29 @@
 
                     <!-- Candidate 2 Stats -->
                     <div id="c2-stats" class="text-left space-y-4"></div>
+                </div>
+
+                <!-- Gemini AI Integration -->
+                <div class="border-t border-slate-200 pt-6 mt-6">
+                    <div class="text-center">
+                        <button onclick="analyzeMatchup()" class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full hover:from-purple-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden">
+                            <span class="absolute inset-0 w-full h-full -mt-10 transition-all duration-700 opacity-0 bg-gradient-to-b from-transparent via-transparent to-white group-hover:opacity-20 group-hover:translate-y-10 group-hover:scale-110"></span>
+                            <span class="relative flex items-center gap-2">
+                                <i class="fas fa-robot"></i> Ask AI Analyst
+                            </span>
+                        </button>
+                        <p class="text-xs text-slate-500 mt-2">Powered by Gemini ✨</p>
+                    </div>
+                    
+                    <div id="ai-analysis-box" class="hidden mt-6 bg-slate-50 rounded-lg p-6 border border-slate-200 text-left">
+                        <div class="flex items-center gap-2 mb-3">
+                            <i class="fas fa-magic text-purple-600"></i>
+                            <h4 class="font-bold text-slate-800">AI Strategic Breakdown</h4>
+                        </div>
+                        <div id="ai-content" class="text-sm text-slate-700 markdown-body leading-relaxed">
+                            <!-- AI Content goes here -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -238,21 +284,51 @@
         <p class="mt-2">Created for Dhaka-6 Voters. &copy; 2026</p>
     </footer>
 
+    <!-- Floating AI Chatbot -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <!-- Chat Window -->
+        <div id="chat-window" class="hidden flex-col w-80 h-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden mb-4 transition-all transform origin-bottom-right">
+            <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-robot text-heritage"></i>
+                    <h4 class="font-bold text-sm">Dhaka-6 Guide</h4>
+                </div>
+                <button onclick="toggleChat()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-slate-50 space-y-3 text-xs">
+                <div class="bg-white p-3 rounded-lg rounded-tl-none border border-slate-100 shadow-sm max-w-[85%]">
+                    Hello! I am your AI election assistant. Ask me about candidates, zones (Wari/Sutrapur), or safety concerns! ✨
+                </div>
+            </div>
+            <div class="p-3 bg-white border-t border-slate-100 flex gap-2">
+                <input type="text" id="chat-input" placeholder="Ask a question..." class="flex-1 text-xs p-2 rounded border border-slate-300 focus:outline-none focus:border-heritage">
+                <button onclick="sendChatMessage()" class="bg-heritage text-white px-3 py-2 rounded hover:bg-red-800 transition"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <!-- Toggle Button -->
+        <button onclick="toggleChat()" class="w-14 h-14 bg-heritage text-white rounded-full shadow-lg hover:bg-red-800 transition flex items-center justify-center text-2xl">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+    </div>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
+        // --- API CONFIGURATION ---
+        const apiKey = ""; // Set by environment
+
         // --- DATA STORE ---
-        // Note: Wealth/Income are estimated based on public profiles/affidavits for simulation.
         const candidates = [
             {
                 id: 1,
                 name: "Ishraque Hossain",
                 symbolName: "Dhaner Sheesh",
                 party: "BNP",
-                icon: "fa-seedling", // Paddy
+                icon: "fa-seedling", 
                 type: "heavyweight",
-                wealth: 550, // Lakhs (Simulated High wealth business background)
+                wealth: 550, 
                 income: 45,
-                cases: 120, // Famous for high number of political cases
+                cases: 120, 
                 education: "Engineer (UK)",
                 color: "green-600",
                 good: "Strong family legacy (Khoka). Highly educated. Very popular in Old Dhaka.",
@@ -278,11 +354,11 @@
                 name: "Md. Yunus Ali Akand",
                 symbolName: "Daab",
                 party: "Independent",
-                icon: "fa-gavel", // Lawyer
+                icon: "fa-gavel", 
                 type: "independent",
                 wealth: 65,
                 income: 8,
-                cases: 15, // Mostly Writ Petitions/Civil
+                cases: 15, 
                 education: "Supreme Court Lawyer",
                 color: "emerald-400",
                 good: "Constitutional expert. Fight against corruption via court orders.",
@@ -350,7 +426,116 @@
             }
         ];
 
-        // --- RENDER FUNCTIONS ---
+        // --- GEMINI AI INTEGRATION ---
+
+        async function callGemini(promptText) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: promptText }] }]
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error('API request failed');
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error("Gemini Error:", error);
+                return "Sorry, the AI intelligence unit is currently offline. Please try again later.";
+            }
+        }
+
+        async function analyzeMatchup() {
+            const idx1 = document.getElementById('comp-1').value;
+            const idx2 = document.getElementById('comp-2').value;
+            const c1 = candidates[idx1];
+            const c2 = candidates[idx2];
+
+            const box = document.getElementById('ai-analysis-box');
+            const content = document.getElementById('ai-content');
+            
+            box.classList.remove('hidden');
+            content.innerHTML = '<div class="flex justify-center p-4"><div class="loader"></div></div>';
+
+            const prompt = `
+                Act as a political analyst for the Dhaka-6 (Old Dhaka) constituency. 
+                Compare these two candidates based on their data and the specific needs of Wari (Elites), Sutrapur (Traders), and Gandaria (Locals).
+                
+                Candidate A: ${c1.name} (${c1.party}), Wealth: ${c1.wealth} Lakh, Cases: ${c1.cases}, Education: ${c1.education}. Pros: ${c1.good}. Cons: ${c1.bad}.
+                Candidate B: ${c2.name} (${c2.party}), Wealth: ${c2.wealth} Lakh, Cases: ${c2.cases}, Education: ${c2.education}. Pros: ${c2.good}. Cons: ${c2.bad}.
+
+                Provide a 3-bullet point strategic breakdown:
+                1. **Voter Appeal:** Who appeals to which zone?
+                2. **Risk Factor:** Analysis of their criminal records/wealth vs stability.
+                3. **Verdict:** Who has the edge for the "Old Dhaka" sentiment?
+                Keep it concise (max 150 words). Format in Markdown.
+            `;
+
+            const result = await callGemini(prompt);
+            content.innerHTML = marked.parse(result);
+        }
+
+        // --- CHATBOT LOGIC ---
+
+        function toggleChat() {
+            const chat = document.getElementById('chat-window');
+            chat.classList.toggle('hidden');
+            chat.classList.toggle('flex');
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const chatBox = document.getElementById('chat-messages');
+            
+            // User Message
+            chatBox.innerHTML += `
+                <div class="bg-heritage text-white p-3 rounded-lg rounded-tr-none ml-auto max-w-[85%] text-right">
+                    ${msg}
+                </div>
+            `;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Loading
+            const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `
+                <div id="${loadingId}" class="bg-white p-3 rounded-lg rounded-tl-none border border-slate-100 shadow-sm max-w-[85%]">
+                    <i class="fas fa-circle-notch fa-spin text-heritage"></i> Analyzing...
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Construct Context
+            const context = `
+                You are a helpful election guide for Dhaka-6. 
+                Candidates Data: ${JSON.stringify(candidates.map(c => `${c.name} (${c.party}) - ${c.good}`))}.
+                Zones: Wari (Elite/Heritage), Sutrapur (Business/Traffic), Gandaria (Local/Density).
+                User Question: "${msg}"
+                Answer in 2-3 short sentences. Be neutral and helpful.
+            `;
+
+            const reply = await callGemini(context);
+            
+            // Replace Loading with Reply
+            document.getElementById(loadingId).remove();
+            chatBox.innerHTML += `
+                <div class="bg-white p-3 rounded-lg rounded-tl-none border border-slate-100 shadow-sm max-w-[85%]">
+                    ${marked.parse(reply)}
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // --- STANDARD APP LOGIC ---
 
         function renderCards(filter) {
             const container = document.getElementById('card-grid');
@@ -395,7 +580,6 @@
             });
         }
 
-        // --- COMPARISON LOGIC ---
         function initComparison() {
             const s1 = document.getElementById('comp-1');
             const s2 = document.getElementById('comp-2');
@@ -407,7 +591,6 @@
                 s2.add(opt2);
             });
             
-            // Set defaults (Ishraque vs Dalu)
             s1.selectedIndex = 0;
             s2.selectedIndex = 1;
             updateComparison();
@@ -428,17 +611,17 @@
 
             document.getElementById('c1-stats').innerHTML = renderStats(c1, 'right');
             document.getElementById('c2-stats').innerHTML = renderStats(c2, 'left');
+            
+            // Hide previous analysis when selection changes
+            document.getElementById('ai-analysis-box').classList.add('hidden');
         }
 
-        // --- CHARTS ---
         function initCharts() {
-            // Sort by wealth
             const sortedWealth = [...candidates].sort((a,b) => b.wealth - a.wealth);
-            
             new Chart(document.getElementById('wealthChart'), {
                 type: 'bar',
                 data: {
-                    labels: sortedWealth.map(c => c.name.split(' ')[0]), // First name only for fit
+                    labels: sortedWealth.map(c => c.name.split(' ')[0]),
                     datasets: [{
                         label: 'Declared Wealth (Lakhs)',
                         data: sortedWealth.map(c => c.wealth),
@@ -453,7 +636,6 @@
                 }
             });
 
-            // Crime Chart
             const sortedCrime = [...candidates].sort((a,b) => b.cases - a.cases);
             new Chart(document.getElementById('crimeChart'), {
                 type: 'bar',
@@ -475,23 +657,24 @@
             });
         }
 
-        // --- INIT ---
         document.addEventListener('DOMContentLoaded', () => {
             renderCards('all');
             initComparison();
             initCharts();
 
-            // Filter Click Handlers
+            // Allow Enter key in chat
+            document.getElementById('chat-input').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    // Styles
                     document.querySelectorAll('.filter-btn').forEach(b => {
                         b.classList.remove('bg-slate-900', 'text-white');
                         b.classList.add('bg-slate-200', 'text-slate-600');
                     });
                     e.target.classList.remove('bg-slate-200', 'text-slate-600');
                     e.target.classList.add('bg-slate-900', 'text-white');
-                    
                     renderCards(e.target.dataset.filter);
                 });
             });
