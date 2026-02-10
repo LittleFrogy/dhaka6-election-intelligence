@@ -5,22 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhaka-6 Election Monitor | 2026</title>
     
-    <!-- Tailwind CSS (Styling) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Chart.js (Graphs) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- FontAwesome (Icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Marked Library for Markdown Parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <!-- Theme Configuration: Old Dhaka Heritage Style -->
     <script>
         tailwind.config = {
             theme: {
@@ -48,6 +42,7 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #9A3412; border-radius: 4px; }
+        
         /* Glassmorphism */
         .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         
@@ -74,10 +69,8 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased relative">
 
-    <!-- Navbar -->
     <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-xl border-b border-heritage">
         <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
-            <!-- Logo Area -->
             <div class="flex items-center gap-3">
                 <i class="fas fa-landmark text-heritage text-2xl"></i>
                 <div>
@@ -86,7 +79,6 @@
                 </div>
             </div>
 
-            <!-- Menu Links -->
             <div class="hidden md:flex gap-6 text-sm font-medium items-center">
                 <a href="#candidates" class="hover:text-heritage transition">Candidates</a>
                 <a href="#comparison" class="hover:text-heritage transition">Head-to-Head</a>
@@ -94,9 +86,7 @@
                 <a href="#zones" class="hover:text-heritage transition">Zone Map</a>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex gap-3">
-                <!-- NEW: YouTube Vote Button -->
                 <a href="https://www.youtube.com/watch?v=yMs9-P2D0qc" target="_blank" class="bg-youtube hover:bg-red-700 text-white px-5 py-2 rounded-full text-sm font-bold transition shadow-lg shadow-red-900/50 flex items-center gap-2">
                     <i class="fab fa-youtube"></i> How to Vote
                 </a>
@@ -104,16 +94,14 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <header class="relative bg-slate-900 text-white py-20 overflow-hidden">
-        <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/brick-wall.png');"></div>
         
         <div class="container mx-auto px-4 text-center relative z-10">
             <span class="inline-block py-1 px-3 rounded-full bg-heritage/20 border border-heritage/50 text-heritage text-xs font-bold mb-4">ELECTION 2026 INTELLIGENCE</span>
             <h2 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight">The Battle for <br><span class="text-heritage">Old Dhaka</span></h2>
             <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-10">
-                7 Candidates. 1 Seat. A mix of heritage, business, and chaos. We analyzed the affidavits (Holofnama) to bring you the raw truth about money, cases, and power.
+                7 Candidates. 1 Seat. A mix of heritage, business, and chaos. We analyzed the affidavits (Holofnama) to bring you the raw truth.
             </p>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
@@ -137,12 +125,11 @@
         </div>
     </header>
 
-    <!-- Section: Candidate Grid -->
     <section id="candidates" class="py-16 container mx-auto px-4">
         <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-slate-200 pb-4">
             <div>
                 <h3 class="text-3xl font-serif font-bold text-slate-900">The Lineup</h3>
-                <p class="text-slate-500 mt-2">Click on any card for full details.</p>
+                <p class="text-slate-500 mt-2">Affidavit Analysis & Risk Factors.</p>
             </div>
             <div class="flex gap-2 mt-4 md:mt-0">
                 <button class="filter-btn active bg-slate-900 text-white px-4 py-1 rounded-full text-sm" data-filter="all">All</button>
@@ -152,43 +139,31 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="card-grid">
-            <!-- Cards Injected by JS -->
-        </div>
+            </div>
     </section>
 
-    <!-- Section: Head-to-Head Comparison (AI Enhanced) -->
     <section id="comparison" class="py-16 bg-slate-100 border-y border-slate-200">
         <div class="container mx-auto px-4">
             <h3 class="text-3xl font-serif font-bold text-center text-slate-900 mb-8">Head-to-Head</h3>
             
             <div class="glass rounded-xl shadow-xl p-6 md:p-8 max-w-5xl mx-auto">
                 <div class="flex justify-center gap-4 mb-8">
-                    <select id="comp-1" class="p-2 rounded border border-slate-300 bg-white" onchange="updateComparison()">
-                        <!-- Options filled by JS -->
-                    </select>
+                    <select id="comp-1" class="p-2 rounded border border-slate-300 bg-white" onchange="updateComparison()"></select>
                     <div class="flex items-center justify-center w-10 h-10 bg-slate-200 rounded-full font-bold text-slate-500">VS</div>
-                    <select id="comp-2" class="p-2 rounded border border-slate-300 bg-white" onchange="updateComparison()">
-                         <!-- Options filled by JS -->
-                    </select>
+                    <select id="comp-2" class="p-2 rounded border border-slate-300 bg-white" onchange="updateComparison()"></select>
                 </div>
 
                 <div class="grid grid-cols-3 gap-4 text-center items-center mb-6">
-                    <!-- Candidate 1 Stats -->
                     <div id="c1-stats" class="text-right space-y-4"></div>
-                    
-                    <!-- Labels -->
                     <div class="text-center space-y-4 text-xs font-bold text-slate-400 uppercase tracking-widest">
                         <div class="h-6">Party</div>
                         <div class="h-6">Wealth</div>
                         <div class="h-6">Cases</div>
                         <div class="h-6">Education</div>
                     </div>
-
-                    <!-- Candidate 2 Stats -->
                     <div id="c2-stats" class="text-left space-y-4"></div>
                 </div>
 
-                <!-- Gemini AI Integration -->
                 <div class="border-t border-slate-200 pt-6 mt-6">
                     <div class="text-center">
                         <button onclick="analyzeMatchup()" class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full hover:from-purple-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden">
@@ -205,16 +180,13 @@
                             <i class="fas fa-magic text-purple-600"></i>
                             <h4 class="font-bold text-slate-800">AI Strategic Breakdown</h4>
                         </div>
-                        <div id="ai-content" class="text-sm text-slate-700 markdown-body leading-relaxed">
-                            <!-- AI Content goes here -->
-                        </div>
+                        <div id="ai-content" class="text-sm text-slate-700 markdown-body leading-relaxed"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section: Financial Forensics -->
     <section id="financials" class="py-16 container mx-auto px-4">
         <h3 class="text-3xl font-serif font-bold text-slate-900 mb-2">Financial Forensics</h3>
         <p class="text-slate-500 mb-10">Declared Wealth vs. Criminal Record Analysis</p>
@@ -235,7 +207,6 @@
         </div>
     </section>
 
-    <!-- Section: Zone Analysis -->
     <section id="zones" class="py-16 bg-slate-900 text-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-10">
@@ -244,7 +215,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Zone 1: Wari -->
                 <div class="bg-slate-800 p-6 rounded-xl border-t-4 border-emerald-500 hover:-translate-y-2 transition duration-300">
                     <div class="flex items-center gap-3 mb-4">
                         <i class="fas fa-tree text-emerald-500 text-2xl"></i>
@@ -257,7 +227,6 @@
                     </div>
                 </div>
 
-                <!-- Zone 2: Sutrapur -->
                 <div class="bg-slate-800 p-6 rounded-xl border-t-4 border-yellow-500 hover:-translate-y-2 transition duration-300">
                     <div class="flex items-center gap-3 mb-4">
                         <i class="fas fa-shopping-basket text-yellow-500 text-2xl"></i>
@@ -270,7 +239,6 @@
                     </div>
                 </div>
 
-                <!-- Zone 3: Gandaria -->
                 <div class="bg-slate-800 p-6 rounded-xl border-t-4 border-heritage hover:-translate-y-2 transition duration-300">
                     <div class="flex items-center gap-3 mb-4">
                         <i class="fas fa-home text-heritage text-2xl"></i>
@@ -286,16 +254,13 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-black text-slate-600 py-8 text-center text-sm border-t border-slate-900">
         <div id="decision-engine"></div>
         <p>Unofficial Analysis based on Affidavits (Holofnama).</p>
         <p class="mt-2">Created for Dhaka-6 Voters. &copy; 2026</p>
     </footer>
 
-    <!-- Floating AI Chatbot -->
     <div class="fixed bottom-6 right-6 z-50">
-        <!-- Chat Window -->
         <div id="chat-window" class="hidden flex-col w-80 h-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden mb-4 transition-all transform origin-bottom-right">
             <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
                 <div class="flex items-center gap-2">
@@ -315,35 +280,37 @@
             </div>
         </div>
 
-        <!-- Toggle Button -->
         <button onclick="toggleChat()" class="w-14 h-14 bg-heritage text-white rounded-full shadow-lg hover:bg-red-800 transition flex items-center justify-center text-2xl">
             <i class="fas fa-comment-dots"></i>
         </button>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
         // --- CONFIGURATION ---
-        // INSTRUCTION: If you have a Gemini API Key, paste it inside the quotes below.
-        // If you leave it empty, the app will use "Demo Mode" (Simulated responses).
-        const apiKey = ""; 
+        const apiKey = ""; // Leave empty for Demo Mode
 
-        // --- DATA STORE (UPDATED PARTIES) ---
+        // --- DATA STORE (UPDATED with 4 NEW FEATURES) ---
+        // Added: risk, riskType, stronghold, caseType, budget
         const candidates = [
             {
                 id: 1,
                 name: "Ishraque Hossain",
                 symbolName: "Dhaner Sheesh",
-                party: "BNP", 
+                party: "BNP",
                 icon: "fa-seedling", 
                 type: "heavyweight",
                 wealth: 550, 
                 income: 45,
-                cases: 125, 
+                cases: 125,
+                caseType: "political", // Feature 3: Case Classification
+                budget: 35,
                 education: "Engineer (M.Sc, UK)",
                 color: "green-600",
                 badge: "High Legal Risk",
                 badgeColor: "red",
+                stronghold: "Gandaria", // Feature 2: Stronghold
+                risk: "Political Cases", // Feature 1: Risk Radar
+                riskType: "warning",
                 good: "Strong family legacy (Khoka). Highly educated. Very popular in Old Dhaka.",
                 bad: "Over 100+ cases. Aggressive rhetoric concern."
             },
@@ -357,10 +324,15 @@
                 wealth: 26, 
                 income: 4.5,
                 cases: 2,
+                caseType: "civil", 
+                budget: 20, // Feature 4: Budget > Income Anomaly
                 education: "Graduate",
                 color: "yellow-500",
                 badge: "Veteran",
                 badgeColor: "blue",
+                stronghold: "Sutrapur", // Feature 2
+                risk: "Income Anomaly", // Feature 1
+                riskType: "warning",
                 good: "Experienced. 14-Party alliance history creates stability.",
                 bad: "Party stance confuses voters. Limited youth appeal."
             },
@@ -374,10 +346,15 @@
                 wealth: 65,
                 income: 8,
                 cases: 0, 
+                caseType: "none",
+                budget: 2,
                 education: "Advocate (SC)",
                 color: "emerald-400",
                 badge: "Constitutional Expert",
                 badgeColor: "purple",
+                stronghold: "Wari", // Feature 2
+                risk: "Safe", // Feature 1
+                riskType: "safe",
                 good: "Clean record. Known for public interest litigation (writs).",
                 bad: "Eccentric public image. Lacks grassroots machinery."
             },
@@ -391,10 +368,15 @@
                 wealth: 40,
                 income: 7.5,
                 cases: 0,
+                caseType: "none",
+                budget: 14.2,
                 education: "H.S.C",
                 color: "blue-400",
                 badge: "Clean Record",
                 badgeColor: "green",
+                stronghold: "Sutrapur", // Feature 2
+                risk: "Dual Citizenship", // Feature 1
+                riskType: "critical", // Critical Risk
                 good: "Clean slate. Represents local trader interests in Sutrapur.",
                 bad: "Low visibility compared to giants. Lower education qualification."
             },
@@ -408,10 +390,15 @@
                 wealth: 140,
                 income: 5,
                 cases: 8,
+                caseType: "political",
+                budget: 15, // Anomaly (15 > 5)
                 education: "PhD",
                 color: "teal-600",
                 badge: "Highest Education",
                 badgeColor: "indigo",
+                stronghold: "Wari", // Feature 2
+                risk: "Budget Mismatch", // Feature 1
+                riskType: "warning",
                 good: "Highly educated (PhD). Strong religious voter base. Disciplined cadre.",
                 bad: "evokes strong loyalty but also distrust."
             },
@@ -425,10 +412,15 @@
                 wealth: 100,
                 income: 4,
                 cases: 1,
+                caseType: "civil", // Fraud
+                budget: 7,
                 education: "Graduate",
                 color: "gray-500",
                 badge: "Historic Brand",
                 badgeColor: "gray",
+                stronghold: "Swami Bagh", // Feature 2
+                risk: "Fraud Case (NI Act)", // Feature 1
+                riskType: "critical",
                 good: "Clean image. Owns significant property in Swami Bagh.",
                 bad: "Party has very little relevance in modern politics."
             },
@@ -442,10 +434,15 @@
                 wealth: 90,
                 income: 15,
                 cases: 3,
+                caseType: "political",
+                budget: 10,
                 education: "Self-Educated",
                 color: "orange-500",
                 badge: "Transport Influence",
                 badgeColor: "orange",
+                stronghold: "Sutrapur", // Feature 2
+                risk: "Legal Risks", // Feature 1
+                riskType: "warning",
                 good: "Strong connection with transport sector workers. 'Man of the streets'.",
                 bad: "Allegations of transport syndicate links."
             }
@@ -453,7 +450,6 @@
 
         // --- AI LOGIC (WITH DEMO FALLBACK) ---
 
-        // Mock responses for when API key is missing
         function getMockResponse(type, context) {
             if (type === 'matchup') {
                 return `**AI Demo Analysis:**
@@ -469,16 +465,13 @@ This is a simulated response because no API Key was provided.
         }
 
         async function callGemini(promptText, type) {
-            // Check if user provided key
             if (!apiKey || apiKey === "") {
-                // Simulate delay for realism
-                await new Promise(r => setTimeout(r, 1500)); 
+                await new Promise(r => setTimeout(r, 1500));
                 return getMockResponse(type, promptText);
             }
 
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = { contents: [{ parts: [{ text: promptText }] }] };
-
             try {
                 const response = await fetch(url, {
                     method: 'POST',
@@ -502,11 +495,11 @@ This is a simulated response because no API Key was provided.
 
             const box = document.getElementById('ai-analysis-box');
             const content = document.getElementById('ai-content');
-            
             box.classList.remove('hidden');
             content.innerHTML = '<div class="flex justify-center p-4"><div class="loader"></div></div>';
 
-            const prompt = `Act as a political analyst for Dhaka-6. Compare: ${c1.name} (${c1.party}) vs ${c2.name} (${c2.party}). Focus on Wari/Sutrapur dynamics. Short bullet points.`;
+            const prompt = `Act as a political analyst for Dhaka-6.
+            Compare: ${c1.name} (${c1.party}) vs ${c2.name} (${c2.party}). Focus on Wari/Sutrapur dynamics. Short bullet points.`;
 
             const result = await callGemini(prompt, 'matchup');
             content.innerHTML = marked.parse(result);
@@ -526,8 +519,6 @@ This is a simulated response because no API Key was provided.
             if (!msg) return;
 
             const chatBox = document.getElementById('chat-messages');
-            
-            // User Message
             chatBox.innerHTML += `
                 <div class="bg-heritage text-white p-3 rounded-lg rounded-tr-none ml-auto max-w-[85%] text-right">
                     ${msg}
@@ -536,7 +527,6 @@ This is a simulated response because no API Key was provided.
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Loading
             const loadingId = 'loading-' + Date.now();
             chatBox.innerHTML += `
                 <div id="${loadingId}" class="bg-white p-3 rounded-lg rounded-tl-none border border-slate-100 shadow-sm max-w-[85%]">
@@ -545,10 +535,7 @@ This is a simulated response because no API Key was provided.
             `;
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Call AI
             const reply = await callGemini(msg, 'chat');
-            
-            // Replace Loading with Reply
             document.getElementById(loadingId).remove();
             chatBox.innerHTML += `
                 <div class="bg-white p-3 rounded-lg rounded-tl-none border border-slate-100 shadow-sm max-w-[85%]">
@@ -565,9 +552,7 @@ This is a simulated response because no API Key was provided.
             container.innerHTML = '';
             
             const filtered = filter === 'all' ? candidates : candidates.filter(c => c.type === filter);
-
             filtered.forEach(c => {
-                // Determine Badge Color Class
                 let badgeClass = "bg-slate-100 text-slate-600";
                 if(c.badgeColor === 'red') badgeClass = "bg-red-100 text-red-700";
                 if(c.badgeColor === 'green') badgeClass = "bg-green-100 text-green-700";
@@ -576,12 +561,45 @@ This is a simulated response because no API Key was provided.
                 if(c.badgeColor === 'purple') badgeClass = "bg-purple-100 text-purple-700";
                 if(c.badgeColor === 'orange') badgeClass = "bg-orange-100 text-orange-700";
 
+                // Feature 1: Risk Radar Logic
+                let riskBanner = '';
+                if(c.riskType === 'critical') {
+                    riskBanner = `<div class="bg-red-600 text-white text-[10px] font-bold px-4 py-1 text-center animate-pulse tracking-wider">⚠️ CRITICAL: ${c.risk.toUpperCase()}</div>`;
+                } else if(c.riskType === 'warning') {
+                    riskBanner = `<div class="bg-yellow-400 text-slate-900 text-[10px] font-bold px-4 py-1 text-center tracking-wider"><i class="fas fa-exclamation-triangle"></i> WARNING: ${c.risk.toUpperCase()}</div>`;
+                }
+
+                // Feature 3: Case Classification Color
+                let caseColor = 'text-green-600';
+                let caseLabel = '';
+                if(c.cases > 0) {
+                    if(c.caseType === 'political') {
+                        caseColor = 'text-orange-500';
+                        caseLabel = '<span class="text-[9px] bg-orange-100 px-1 rounded ml-1">Political</span>';
+                    } else if(c.caseType === 'civil') {
+                        caseColor = 'text-red-600';
+                        caseLabel = '<span class="text-[9px] bg-red-100 px-1 rounded ml-1">Civil/Fraud</span>';
+                    }
+                }
+
+                // Feature 4: Budget Anomaly Check
+                let budgetAlert = '';
+                if(c.budget > c.income) {
+                    budgetAlert = `
+                    <div class="col-span-2 text-center mt-2 border-t border-red-100 pt-2">
+                        <span class="text-xs text-red-600 font-bold"><i class="fas fa-search-dollar"></i> Budget Anomaly: Spending > Income</span>
+                    </div>`;
+                }
+
                 const card = `
                 <div class="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-2xl transition-all duration-300 group">
                     <div class="h-2 bg-${c.color}"></div>
-                    <div class="p-6">
+                    ${riskBanner} <div class="p-6">
                         <div class="flex justify-between items-start mb-4">
-                            <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${c.party}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${c.party}</span>
+                                <span class="bg-slate-800 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider"><i class="fas fa-map-marker-alt text-heritage"></i> ${c.stronghold}</span>
+                            </div>
                             <span class="${badgeClass} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${c.badge}</span>
                         </div>
                         
@@ -601,9 +619,8 @@ This is a simulated response because no API Key was provided.
                             </div>
                             <div class="text-right">
                                 <span class="block text-slate-400 text-xs">Cases</span>
-                                <span class="font-bold ${c.cases > 10 ? 'text-red-600' : 'text-green-600'}">${c.cases}</span>
-                            </div>
-                        </div>
+                                <span class="font-bold ${caseColor}">${c.cases}</span> ${caseLabel} </div>
+                            ${budgetAlert} </div>
 
                         <div class="space-y-2 text-sm">
                             <p class="text-green-700 bg-green-50 p-2 rounded"><i class="fas fa-check-circle mr-1"></i> ${c.good}</p>
@@ -637,7 +654,6 @@ This is a simulated response because no API Key was provided.
             const idx2 = document.getElementById('comp-2').value;
             const c1 = candidates[idx1];
             const c2 = candidates[idx2];
-
             const renderStats = (c, align) => `
                 <div class="h-auto min-h-[1.5rem] font-bold text-${c.color} text-sm md:text-lg mb-2 flex items-center justify-${align === 'left' ? 'start' : 'end'} text-wrap leading-tight">
                     ${c.party}
@@ -646,7 +662,6 @@ This is a simulated response because no API Key was provided.
                 <div class="h-6 font-semibold ${c.cases > 0 ? 'text-red-500' : 'text-green-500'}">${c.cases}</div>
                 <div class="h-6 font-semibold text-sm">${c.education}</div>
             `;
-
             document.getElementById('c1-stats').innerHTML = renderStats(c1, 'right');
             document.getElementById('c2-stats').innerHTML = renderStats(c2, 'left');
             
@@ -672,7 +687,6 @@ This is a simulated response because no API Key was provided.
                     plugins: { legend: {display: false} }
                 }
             });
-
             const sortedCrime = [...candidates].sort((a,b) => b.cases - a.cases);
             new Chart(document.getElementById('crimeChart'), {
                 type: 'bar',
@@ -715,7 +729,6 @@ This is a simulated response because no API Key was provided.
                     renderCards(e.target.dataset.filter);
                 });
             });
-            
             // Check API Key for UI status
             if(!apiKey) {
                 const status = document.getElementById('api-status');
