@@ -5,36 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhaka-6 Election Monitor | 2026</title>
     
-    <!-- Tailwind CSS (Styling) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
     
-    <!-- Chart.js (Graphs) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="[https://cdn.jsdelivr.net/npm/chart.js](https://cdn.jsdelivr.net/npm/chart.js)"></script>
 
-    <!-- FontAwesome (Icons) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="[https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap](https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap)" rel="stylesheet">
 
-    <!-- Marked Library for Markdown Parsing -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="[https://cdn.jsdelivr.net/npm/marked/marked.min.js](https://cdn.jsdelivr.net/npm/marked/marked.min.js)"></script>
 
-    <!-- Theme Configuration: Old Dhaka Heritage Style -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
+                        serif:,
                     },
                     colors: {
-                        heritage: '#9A3412', // Terracotta/Brick Red
-                        slate: {
-                            850: '#1e293b',
-                            900: '#0f172a',
-                        },
+                        heritage: '#9A3412', // Terracotta
+                        slate: { 850: '#1e293b', 900: '#0f172a' },
                         youtube: '#FF0000',
                     }
                 }
@@ -43,687 +34,499 @@
     </script>
 
     <style>
-        .chart-container { position: relative; height: 350px; width: 100%; }
+       .chart-container { position: relative; height: 300px; width: 100%; }
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #9A3412; border-radius: 4px; }
-        /* Glassmorphism */
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         
-        /* Markdown Styles */
-        .markdown-body p { margin-bottom: 0.75em; }
-        .markdown-body strong { font-weight: 700; color: #9A3412; }
-        .markdown-body ul { list-style-type: disc; margin-left: 1.5em; margin-bottom: 0.75em; }
-
-        /* Loading Animation */
-        .loader {
-            border: 3px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 3px solid #9A3412;
-            width: 24px;
-            height: 24px;
-            -webkit-animation: spin 1s linear infinite; /* Safari */
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        /* Zone Map Styles */
+       .zone-path { fill: #cbd5e1; transition: all 0.3s; cursor: pointer; }
+       .zone-path:hover { fill: #9A3412; filter: drop-shadow(0 0 5px rgba(154, 52, 18, 0.5)); }
+       .zone-path.active { fill: #9A3412; stroke: white; stroke-width: 2; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased relative">
 
-    <!-- Navbar -->
     <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-xl border-b border-heritage">
-        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
-            <!-- Logo Area -->
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
             <div class="flex items-center gap-3">
                 <i class="fas fa-landmark text-heritage text-2xl"></i>
                 <div>
                     <h1 class="text-xl font-bold font-serif tracking-wide">DHAKA-6 MONITOR</h1>
-                    <p class="text-[10px] text-slate-400 uppercase tracking-widest">Sutrapur • Wari • Gandaria</p>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-widest">Election Forensics 2026</p>
                 </div>
             </div>
-
-            <!-- Menu Links -->
-            <div class="hidden md:flex gap-6 text-sm font-medium items-center">
+            <div class="hidden md:flex gap-6 text-xs font-semibold uppercase tracking-wider items-center">
                 <a href="#candidates" class="hover:text-heritage transition">Candidates</a>
-                <a href="#comparison" class="hover:text-heritage transition">Head-to-Head</a>
-                <a href="#financials" class="hover:text-heritage transition">Financials</a>
-                <a href="#zones" class="hover:text-heritage transition">Zone Map</a>
+                <a href="#forensics" class="hover:text-heritage transition">Financials</a>
+                <a href="#legal" class="hover:text-heritage transition">Legal Decoder</a>
+                <a href="#map" class="hover:text-heritage transition">Zone Map</a>
             </div>
-
-            <!-- Action Buttons -->
             <div class="flex gap-3">
-                <!-- NEW: YouTube Vote Button -->
-                <a href="https://www.youtube.com/watch?v=yMs9-P2D0qc" target="_blank" class="bg-youtube hover:bg-red-700 text-white px-5 py-2 rounded-full text-sm font-bold transition shadow-lg shadow-red-900/50 flex items-center gap-2">
-                    <i class="fab fa-youtube"></i> How to Vote
+                <a href="[https://www.youtube.com/watch?v=yMs9-P2D0qc](https://www.youtube.com/watch?v=yMs9-P2D0qc)" target="_blank" class="bg-youtube hover:bg-red-700 text-white px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-2">
+                    <i class="fab fa-youtube"></i> Voter Guide
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative bg-slate-900 text-white py-20 overflow-hidden">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/brick-wall.png');"></div>
-        
+    <header class="relative bg-slate-900 text-white py-16 overflow-hidden border-b-4 border-heritage">
+        <div class="absolute inset-0 opacity-5" style="background-image: url('[https://www.transparenttextures.com/patterns/brick-wall.png](https://www.transparenttextures.com/patterns/brick-wall.png)');"></div>
         <div class="container mx-auto px-4 text-center relative z-10">
-            <span class="inline-block py-1 px-3 rounded-full bg-heritage/20 border border-heritage/50 text-heritage text-xs font-bold mb-4">ELECTION 2026 INTELLIGENCE</span>
-            <h2 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight">The Battle for <br><span class="text-heritage">Old Dhaka</span></h2>
-            <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-10">
-                7 Candidates. 1 Seat. A mix of heritage, business, and chaos. We analyzed the affidavits (Holofnama) to bring you the raw truth about money, cases, and power.
+            <span class="inline-block py-1 px-3 rounded-full bg-heritage/20 border border-heritage/50 text-heritage text-[10px] font-bold mb-4 tracking-widest">OFFICIAL AFFIDAVIT ANALYSIS</span>
+            <h2 class="text-4xl md:text-5xl font-serif font-bold mb-4 leading-tight">The Battle for <span class="text-heritage">Old Dhaka</span></h2>
+            <p class="text-sm text-slate-400 max-w-xl mx-auto mb-8">
+                We analyzed 100+ pages of Affidavits (Form 20/21) and Tax Returns to bring you the truth about Wealth, Crimes, and Anomalies.
             </p>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                <div class="p-4 rounded-lg bg-slate-800 border border-slate-700">
-                    <div class="text-2xl font-bold text-white">2.89L</div>
-                    <div class="text-xs text-slate-500 uppercase">Voters</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto text-xs">
+                <div class="p-3 rounded bg-slate-800 border border-slate-700">
+                    <div class="text-lg font-bold text-white">2.89L</div>
+                    <div class="text-slate-500 uppercase">Voters</div>
                 </div>
-                <div class="p-4 rounded-lg bg-slate-800 border border-slate-700">
-                    <div class="text-2xl font-bold text-heritage">7</div>
-                    <div class="text-xs text-slate-500 uppercase">Candidates</div>
+                <div class="p-3 rounded bg-slate-800 border border-slate-700">
+                    <div class="text-lg font-bold text-heritage">7</div>
+                    <div class="text-slate-500 uppercase">Candidates</div>
                 </div>
-                <div class="p-4 rounded-lg bg-slate-800 border border-slate-700">
-                    <div class="text-2xl font-bold text-green-500">High</div>
-                    <div class="text-xs text-slate-500 uppercase">Risk Level</div>
+                <div class="p-3 rounded bg-slate-800 border border-slate-700">
+                    <div class="text-lg font-bold text-green-500">~8 Cr</div>
+                    <div class="text-slate-500 uppercase">Highest Wealth</div>
                 </div>
-                <div class="p-4 rounded-lg bg-slate-800 border border-slate-700">
-                    <div class="text-2xl font-bold text-yellow-500">Feb 12</div>
-                    <div class="text-xs text-slate-500 uppercase">Polls</div>
+                <div class="p-3 rounded bg-slate-800 border border-slate-700">
+                    <div class="text-lg font-bold text-red-500">21</div>
+                    <div class="text-slate-500 uppercase">Max Cases</div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Section: Candidate Grid -->
     <section id="candidates" class="py-16 container mx-auto px-4">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-slate-200 pb-4">
-            <div>
-                <h3 class="text-3xl font-serif font-bold text-slate-900">The Lineup</h3>
-                <p class="text-slate-500 mt-2">Click on any card for full details.</p>
-            </div>
-            <div class="flex gap-2 mt-4 md:mt-0">
-                <button class="filter-btn active bg-slate-900 text-white px-4 py-1 rounded-full text-sm" data-filter="all">All</button>
-                <button class="filter-btn bg-slate-200 text-slate-600 px-4 py-1 rounded-full text-sm hover:bg-slate-300" data-filter="heavyweight">Main Parties</button>
-                <button class="filter-btn bg-slate-200 text-slate-600 px-4 py-1 rounded-full text-sm hover:bg-slate-300" data-filter="other">Others</button>
+        <div class="flex justify-between items-end mb-8 border-b border-slate-200 pb-2">
+            <h3 class="text-2xl font-serif font-bold text-slate-900">The Candidates</h3>
+            <div class="flex gap-2">
+                <button onclick="filterCards('all')" class="text-xs font-bold bg-slate-900 text-white px-3 py-1 rounded">ALL</button>
+                <button onclick="filterCards('risk')" class="text-xs font-bold bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200">HIGH RISK</button>
             </div>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="card-grid">
-            <!-- Cards Injected by JS -->
-        </div>
+            </div>
     </section>
 
-    <!-- Section: Head-to-Head Comparison (AI Enhanced) -->
-    <section id="comparison" class="py-16 bg-slate-100 border-y border-slate-200">
-        <div class="container mx-auto px-4">
-            <h3 class="text-3xl font-serif font-bold text-center text-slate-900 mb-8">Head-to-Head</h3>
-            
-            <div class="glass rounded-xl shadow-xl p-6 md:p-8 max-w-5xl mx-auto">
-                <div class="flex justify-center gap-4 mb-8">
-                    <select id="comp-1" class="p-2 rounded border border-slate-300 bg-white" onchange="updateComparison()">
-                        <!-- Options filled by JS -->
-                    </select>
-                    <div class="flex items-center justify-center w-10 h-10 bg-slate-200 rounded-full font-bold text-slate-500">VS</div>
-                    <select id="comp-2" class="p-2 rounded border border-slate-300 bg-white" onchange="updateComparison()">
-                         <!-- Options filled by JS -->
-                    </select>
-                </div>
-
-                <div class="grid grid-cols-3 gap-4 text-center items-center mb-6">
-                    <!-- Candidate 1 Stats -->
-                    <div id="c1-stats" class="text-right space-y-4"></div>
-                    
-                    <!-- Labels -->
-                    <div class="text-center space-y-4 text-xs font-bold text-slate-400 uppercase tracking-widest">
-                        <div class="h-6">Party</div>
-                        <div class="h-6">Wealth</div>
-                        <div class="h-6">Cases</div>
-                        <div class="h-6">Education</div>
-                    </div>
-
-                    <!-- Candidate 2 Stats -->
-                    <div id="c2-stats" class="text-left space-y-4"></div>
-                </div>
-
-                <!-- Gemini AI Integration -->
-                <div class="border-t border-slate-200 pt-6 mt-6">
-                    <div class="text-center">
-                        <button onclick="analyzeMatchup()" class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full hover:from-purple-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden">
-                            <span class="absolute inset-0 w-full h-full -mt-10 transition-all duration-700 opacity-0 bg-gradient-to-b from-transparent via-transparent to-white group-hover:opacity-20 group-hover:translate-y-10 group-hover:scale-110"></span>
-                            <span class="relative flex items-center gap-2">
-                                <i class="fas fa-robot"></i> Ask AI Analyst
-                            </span>
-                        </button>
-                        <p id="api-status" class="text-xs text-slate-500 mt-2">Powered by Gemini ✨ (Demo Mode Active)</p>
-                    </div>
-                    
-                    <div id="ai-analysis-box" class="hidden mt-6 bg-slate-50 rounded-lg p-6 border border-slate-200 text-left">
-                        <div class="flex items-center gap-2 mb-3">
-                            <i class="fas fa-magic text-purple-600"></i>
-                            <h4 class="font-bold text-slate-800">AI Strategic Breakdown</h4>
-                        </div>
-                        <div id="ai-content" class="text-sm text-slate-700 markdown-body leading-relaxed">
-                            <!-- AI Content goes here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section: Financial Forensics -->
-    <section id="financials" class="py-16 container mx-auto px-4">
-        <h3 class="text-3xl font-serif font-bold text-slate-900 mb-2">Financial Forensics</h3>
-        <p class="text-slate-500 mb-10">Declared Wealth vs. Criminal Record Analysis</p>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
-                <h4 class="font-bold text-slate-700 mb-4 flex items-center"><i class="fas fa-chart-line text-heritage mr-2"></i> Wealth Disparity</h4>
-                <div class="chart-container">
-                    <canvas id="wealthChart"></canvas>
-                </div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
-                <h4 class="font-bold text-slate-700 mb-4 flex items-center"><i class="fas fa-gavel text-heritage mr-2"></i> Criminal Record (Political & Civil)</h4>
-                <div class="chart-container">
-                    <canvas id="crimeChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section: Zone Analysis -->
-    <section id="zones" class="py-16 bg-slate-900 text-white">
+    <section id="forensics" class="py-16 bg-slate-100 border-y border-slate-200">
         <div class="container mx-auto px-4">
             <div class="text-center mb-10">
-                <h3 class="text-3xl font-serif font-bold text-heritage mb-2">Tactical Map: The 3 Zones</h3>
-                <p class="text-slate-400">Winning Dhaka-6 requires winning three different worlds.</p>
+                <h3 class="text-3xl font-serif font-bold text-slate-900">Financial Forensics</h3>
+                <p class="text-sm text-slate-500">Detecting anomalies in Income vs. Spending & Tax Compliance.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Zone 1: Wari -->
-                <div class="bg-slate-800 p-6 rounded-xl border-t-4 border-emerald-500 hover:-translate-y-2 transition duration-300">
-                    <div class="flex items-center gap-3 mb-4">
-                        <i class="fas fa-tree text-emerald-500 text-2xl"></i>
-                        <h4 class="text-xl font-bold">Wari (The Elite)</h4>
-                    </div>
-                    <p class="text-sm text-slate-400 mb-4">The "Green Zone". High education, historic estates. Voters here hate noise and violence.</p>
-                    <div class="bg-slate-900 p-3 rounded text-xs text-slate-300">
-                        <strong>Key Issue:</strong> Preserving heritage buildings, Security.
-                        <br><span class="text-emerald-500 mt-1 block">Favors: Educated/Clean Candidates</span>
-                    </div>
-                </div>
-
-                <!-- Zone 2: Sutrapur -->
-                <div class="bg-slate-800 p-6 rounded-xl border-t-4 border-yellow-500 hover:-translate-y-2 transition duration-300">
-                    <div class="flex items-center gap-3 mb-4">
-                        <i class="fas fa-shopping-basket text-yellow-500 text-2xl"></i>
-                        <h4 class="text-xl font-bold">Sutrapur (The Market)</h4>
-                    </div>
-                    <p class="text-sm text-slate-400 mb-4">The trading hub. Timber, iron, spare parts. Business protection is the only language spoken here.</p>
-                    <div class="bg-slate-900 p-3 rounded text-xs text-slate-300">
-                        <strong>Key Issue:</strong> Extortion (Chadabaji), Traffic gridlock.
-                        <br><span class="text-yellow-500 mt-1 block">Favors: Strongmen/Protectors</span>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                    <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-search-dollar text-red-500"></i> The Anomaly Tracker
+                    </h4>
+                    <p class="text-xs text-slate-500 mb-4">
+                        Comparison of <strong>Annual Income</strong> vs. Declared <strong>Election Budget</strong>. 
+                        <br><em>*Red bars indicate spending exceeding annual income (High Corruption Risk).</em>
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="anomalyChart"></canvas>
                     </div>
                 </div>
 
-                <!-- Zone 3: Gandaria -->
-                <div class="bg-slate-800 p-6 rounded-xl border-t-4 border-heritage hover:-translate-y-2 transition duration-300">
-                    <div class="flex items-center gap-3 mb-4">
-                        <i class="fas fa-home text-heritage text-2xl"></i>
-                        <h4 class="text-xl font-bold">Gandaria (The Base)</h4>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 flex flex-col">
+                    <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-file-invoice-dollar text-green-600"></i> Top Taxpayers (2024-25)
+                    </h4>
+                    <div class="flex-1 overflow-y-auto pr-2">
+                        <table class="w-full text-xs text-left">
+                            <thead class="bg-slate-50 text-slate-500 font-bold uppercase">
+                                <tr>
+                                    <th class="p-2">Rank</th>
+                                    <th class="p-2">Candidate</th>
+                                    <th class="p-2 text-right">Tax Paid (BDT)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tax-table-body" class="divide-y divide-slate-100">
+                                </tbody>
+                        </table>
                     </div>
-                    <p class="text-sm text-slate-400 mb-4">Dense residential lanes. Strong community bonds. "Local boy" sentiment runs high.</p>
-                    <div class="bg-slate-900 p-3 rounded text-xs text-slate-300">
-                        <strong>Key Issue:</strong> Waterlogging, Drug abuse in lanes.
-                        <br><span class="text-heritage mt-1 block">Favors: Ishraque (Family Legacy)</span>
+                    <div class="mt-4 p-3 bg-blue-50 rounded text-[10px] text-blue-700 border border-blue-100">
+                        <i class="fas fa-info-circle mr-1"></i> Data sourced directly from Income Tax Certificates (TIN) attached to affidavits.
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-black text-slate-600 py-8 text-center text-sm border-t border-slate-900">
-        <div id="decision-engine"></div>
-        <p>Unofficial Analysis based on Affidavits (Holofnama).</p>
-        <p class="mt-2">Created for Dhaka-6 Voters. &copy; 2026</p>
-    </footer>
+    <section id="legal" class="py-16 container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1">
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded shadow-md h-full">
+                    <h4 class="text-xl font-bold text-red-800 mb-4"><i class="fas fa-passport mr-2"></i> Citizenship Alert</h4>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded border border-red-100 shadow-sm">
+                            <div class="flex justify-between items-start">
+                                <h5 class="font-bold text-slate-800">Ahmed Ali Sheikh</h5>
+                                <span class="bg-red-100 text-red-600 text-[10px] px-2 py-1 rounded font-bold">CRITICAL</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-2">
+                                In his affidavit (Form 20), he explicitly selected <strong>"Yes"</strong> for Dual Citizenship.
+                            </p>
+                            <p class="text-[10px] text-red-600 mt-2 font-semibold">
+                                <i class="fas fa-exclamation-triangle"></i> Risk: Potential disqualification under Article 66 of the Constitution.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Floating AI Chatbot -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <!-- Chat Window -->
-        <div id="chat-window" class="hidden flex-col w-80 h-96 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden mb-4 transition-all transform origin-bottom-right">
-            <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-robot text-heritage"></i>
-                    <h4 class="font-bold text-sm">Dhaka-6 Guide</h4>
+            <div class="lg:col-span-2">
+                <h3 class="text-2xl font-serif font-bold text-slate-900 mb-6">Legal Decoder <span class="text-sm font-sans font-normal text-slate-500">(Understanding the Charges)</span></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded border border-slate-200 hover:shadow-md transition">
+                        <span class="text-xs font-bold text-purple-600 bg-purple-100 px-2 py-1 rounded">PC 143/147/148</span>
+                        <h5 class="font-bold mt-2">Unlawful Assembly & Rioting</h5>
+                        <p class="text-xs text-slate-500 mt-1">Common "Political Case" charge used against opposition leaders for street protests.</p>
+                        <div class="mt-2 flex gap-1 flex-wrap">
+                            <span class="text-[10px] bg-slate-100 px-1 rounded">Ishraque</span>
+                            <span class="text-[10px] bg-slate-100 px-1 rounded">Mannan</span>
+                            <span class="text-[10px] bg-slate-100 px-1 rounded">Akter</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded border border-slate-200 hover:shadow-md transition">
+                        <span class="text-xs font-bold text-orange-600 bg-orange-100 px-2 py-1 rounded">Explosive Substances Act</span>
+                        <h5 class="font-bold mt-2">Possession/Use of Explosives</h5>
+                        <p class="text-xs text-slate-500 mt-1">Serious charge often filed during cocktail blasts in protests.</p>
+                        <div class="mt-2 flex gap-1 flex-wrap">
+                            <span class="text-[10px] bg-slate-100 px-1 rounded">Ishraque</span>
+                            <span class="text-[10px] bg-slate-100 px-1 rounded">Mannan</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded border border-red-200 hover:shadow-md transition border-l-4 border-l-red-500">
+                        <span class="text-xs font-bold text-red-600 bg-red-100 px-2 py-1 rounded">NI Act 138</span>
+                        <h5 class="font-bold mt-2">Dishonour of Cheque (Fraud)</h5>
+                        <p class="text-xs text-slate-500 mt-1"><strong>Not Political.</strong> This implies financial insolvency or fraud.</p>
+                        <div class="mt-2 flex gap-1 flex-wrap">
+                            <span class="text-[10px] bg-red-100 text-red-700 font-bold px-1 rounded">Md. Akter Hossain</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded border border-slate-200 hover:shadow-md transition">
+                        <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded">ACC Act 26(2)</span>
+                        <h5 class="font-bold mt-2">False Wealth Declaration</h5>
+                        <p class="text-xs text-slate-500 mt-1">Filed by Anti-Corruption Commission regarding asset concealment.</p>
+                        <div class="mt-2 flex gap-1 flex-wrap">
+                            <span class="text-[10px] bg-slate-100 px-1 rounded">Ishraque (Acquitted)</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="toggleChat()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
-            </div>
-            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-slate-50 space-y-3 text-xs">
-                <div class="bg-white p-3 rounded-lg rounded-tl-none border border-slate-100 shadow-sm max-w-[85%]">
-                    Hello! I am your AI election assistant. Ask me about candidates, zones (Wari/Sutrapur), or safety concerns! ✨
-                </div>
-            </div>
-            <div class="p-3 bg-white border-t border-slate-100 flex gap-2">
-                <input type="text" id="chat-input" placeholder="Ask a question..." class="flex-1 text-xs p-2 rounded border border-slate-300 focus:outline-none focus:border-heritage">
-                <button onclick="sendChatMessage()" class="bg-heritage text-white px-3 py-2 rounded hover:bg-red-800 transition"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
+    </section>
 
-        <!-- Toggle Button -->
-        <button onclick="toggleChat()" class="w-14 h-14 bg-heritage text-white rounded-full shadow-lg hover:bg-red-800 transition flex items-center justify-center text-2xl">
-            <i class="fas fa-comment-dots"></i>
-        </button>
-    </div>
+    <section id="map" class="py-16 bg-slate-900 text-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-serif font-bold text-heritage text-center mb-2">Tactical Zone Map</h3>
+            <p class="text-slate-400 text-center mb-8 text-sm">Select your area to see who fits best.</p>
 
-    <!-- JAVASCRIPT LOGIC -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div onclick="filterByZone('wari')" class="zone-card cursor-pointer bg-slate-800 p-6 rounded-lg border border-slate-700 hover:border-emerald-500 transition group">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-emerald-900 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition"><i class="fas fa-tree"></i></div>
+                        <h4 class="font-bold text-lg">Wari (Elite)</h4>
+                    </div>
+                    <p class="text-xs text-slate-400">Educated, heritage-conscious voters.</p>
+                </div>
+
+                <div onclick="filterByZone('sutrapur')" class="zone-card cursor-pointer bg-slate-800 p-6 rounded-lg border border-slate-700 hover:border-yellow-500 transition group">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-yellow-900 flex items-center justify-center text-yellow-400 group-hover:bg-yellow-500 group-hover:text-white transition"><i class="fas fa-store"></i></div>
+                        <h4 class="font-bold text-lg">Sutrapur (Business)</h4>
+                    </div>
+                    <p class="text-xs text-slate-400">Traders, wholesale markets, transport.</p>
+                </div>
+
+                <div onclick="filterByZone('gandaria')" class="zone-card cursor-pointer bg-slate-800 p-6 rounded-lg border border-slate-700 hover:border-heritage transition group">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-red-900 flex items-center justify-center text-heritage group-hover:bg-heritage group-hover:text-white transition"><i class="fas fa-home"></i></div>
+                        <h4 class="font-bold text-lg">Gandaria (Local)</h4>
+                    </div>
+                    <p class="text-xs text-slate-400">Traditional "Dhakaiya" community base.</p>
+                </div>
+            </div>
+
+            <div id="zone-result" class="mt-8 p-6 bg-slate-800 rounded-lg border border-slate-600 hidden">
+                <h4 id="zone-title" class="text-xl font-bold text-white mb-2"></h4>
+                <p id="zone-desc" class="text-sm text-slate-300 mb-4"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="zone-candidates"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black text-slate-600 py-8 text-center text-xs border-t border-slate-900">
+        <p>Unofficial Forensic Analysis based on Affidavit Forms 20 & 21 (EC).</p>
+        <p class="mt-1">Data extracted from: Holofnama, Income Tax Returns, and NI Act filings.</p>
+        <p class="mt-2 text-slate-700">&copy; 2026 Election Monitor</p>
+    </footer>
+
     <script>
-        // --- CONFIGURATION ---
-        // INSTRUCTION: If you have a Gemini API Key, paste it inside the quotes below.
-        // If you leave it empty, the app will use "Demo Mode" (Simulated responses).
-        const apiKey = ""; 
-
-        // --- DATA STORE (UPDATED PARTIES) ---
-        const candidates = [
-            {
-                id: 1,
-                name: "Ishraque Hossain",
-                symbolName: "Dhaner Sheesh",
-                party: "BNP", 
-                icon: "fa-seedling", 
-                type: "heavyweight",
-                wealth: 550, 
-                income: 45,
-                cases: 125, 
-                education: "Engineer (M.Sc, UK)",
-                color: "green-600",
-                badge: "High Legal Risk",
-                badgeColor: "red",
-                good: "Strong family legacy (Khoka). Highly educated. Very popular in Old Dhaka.",
-                bad: "Over 100+ cases. Aggressive rhetoric concern."
+        // --- 1. FORENSIC DATA (Extracted from Files) ---
+        const candidates =
             },
             {
                 id: 2,
-                name: "Amir Uddin Ahmed (Dalu)",
-                symbolName: "Langol",
-                party: "Jatiya Party",
-                icon: "fa-plow",
-                type: "heavyweight",
-                wealth: 26, 
-                income: 4.5,
-                cases: 2,
-                education: "Graduate",
-                color: "yellow-500",
-                badge: "Veteran",
-                badgeColor: "blue",
-                good: "Experienced. 14-Party alliance history creates stability.",
-                bad: "Party stance confuses voters. Limited youth appeal."
+                name: "Dr. Md. Abdul Mannan",
+                party: "Jamaat-e-Islami",
+                symbol: "Daripalla",
+                img: "fa-balance-scale",
+                wealth: 54, // Self only
+                income: 7.2,
+                tax: 6407, // Low tax for a PhD/Lecturer
+                cases: 21,
+                budget: 23, // 16L Party + 7L Donations
+                edu: "PhD",
+                risk: "Max Criminal Cases",
+                riskType: "warning",
+                zones: ["wari"]
             },
             {
                 id: 3,
-                name: "Md. Yunus Ali Akand",
-                symbolName: "Daab",
-                party: "Bangladesh Congress",
-                icon: "fa-gavel", 
-                type: "other",
-                wealth: 65,
-                income: 8,
-                cases: 0, 
-                education: "Advocate (SC)",
-                color: "emerald-400",
-                badge: "Constitutional Expert",
-                badgeColor: "purple",
-                good: "Clean record. Known for public interest litigation (writs).",
-                bad: "Eccentric public image. Lacks grassroots machinery."
+                name: "Ahmed Ali Sheikh",
+                party: "Gono Front",
+                symbol: "Fish",
+                img: "fa-fish",
+                wealth: 175, // Cash + Land + Building
+                income: 12.5,
+                tax: 30000,
+                cases: 0,
+                budget: 14.2, // Loans/Donations
+                edu: "B.A. (Hons), LL.B",
+                risk: "Dual Citizenship",
+                riskType: "critical", // CRITICAL RISK
+                zones: ["sutrapur"]
             },
             {
                 id: 4,
-                name: "Ahmed Ali Sheikh",
-                symbolName: "Fish (Mach)",
-                party: "Gono Front",
-                icon: "fa-fish",
-                type: "other",
-                wealth: 40,
-                income: 7.5,
-                cases: 0,
-                education: "H.S.C",
-                color: "blue-400",
-                badge: "Clean Record",
-                badgeColor: "green",
-                good: "Clean slate. Represents local trader interests in Sutrapur.",
-                bad: "Low visibility compared to giants. Lower education qualification."
+                name: "Md. Akter Hossain",
+                party: "Muslim League",
+                symbol: "Hurricane",
+                img: "fa-wind",
+                wealth: 110,
+                income: 5,
+                tax: 19800,
+                cases: 2,
+                budget: 7, // Loan from individuals
+                edu: "Graduate",
+                risk: "Financial Fraud Case", // NI Act
+                riskType: "critical",
+                zones: ["gandaria"]
             },
             {
                 id: 5,
-                name: "Abdul Mannan",
-                symbolName: "Daripalla",
-                party: "Jamaat-e-Islami",
-                icon: "fa-balance-scale",
-                type: "heavyweight",
-                wealth: 140,
-                income: 5,
-                cases: 8,
-                education: "PhD",
-                color: "teal-600",
-                badge: "Highest Education",
-                badgeColor: "indigo",
-                good: "Highly educated (PhD). Strong religious voter base. Disciplined cadre.",
-                bad: "evokes strong loyalty but also distrust."
+                name: "Amir Uddin Ahmed (Dalu)",
+                party: "Jatiya Party",
+                symbol: "Plough",
+                img: "fa-plow",
+                wealth: 25, // Cash + Flat
+                income: 4.5,
+                tax: 5000,
+                cases: 0,
+                budget: 20, // 4.4x his income!
+                edu: "H.S.C",
+                risk: "Income Anomaly",
+                riskType: "warning",
+                zones: ["sutrapur"]
             },
             {
                 id: 6,
-                name: "Md. Akhtar Hossain",
-                symbolName: "Hurricane",
-                party: "Muslim League",
-                icon: "fa-wind",
-                type: "other",
-                wealth: 100,
-                income: 4,
-                cases: 1,
-                education: "Graduate",
-                color: "gray-500",
-                badge: "Historic Brand",
-                badgeColor: "gray",
-                good: "Clean image. Owns significant property in Swami Bagh.",
-                bad: "Party has very little relevance in modern politics."
+                name: "Md. Fakhrul Islam",
+                party: "Gono Odhikar Parishad",
+                symbol: "Truck",
+                img: "fa-truck",
+                wealth: 14.5,
+                income: 3.2,
+                tax: 0,
+                cases: 0,
+                budget: 10, // 3x income
+                edu: "Graduate",
+                risk: "Spending > Income",
+                riskType: "warning",
+                zones: ["sutrapur"]
             },
             {
                 id: 7,
-                name: "Md. Fakhrul Islam",
-                symbolName: "Truck",
-                party: "Gono Odhikar Parishad (GOP)",
-                icon: "fa-truck",
-                type: "other",
-                wealth: 90,
-                income: 15,
-                cases: 3,
-                education: "Self-Educated",
-                color: "orange-500",
-                badge: "Transport Influence",
-                badgeColor: "orange",
-                good: "Strong connection with transport sector workers. 'Man of the streets'.",
-                bad: "Allegations of transport syndicate links."
+                name: "Md. Eunus Ali Akond",
+                party: "Bangladesh Congress",
+                symbol: "Green Coconut",
+                img: "fa-gavel",
+                wealth: 5, // Low liquidity
+                income: 6,
+                tax: 25000,
+                cases: 0,
+                budget: 2,
+                edu: "PhD (Law)",
+                risk: "None",
+                riskType: "safe",
+                zones: ["wari"]
             }
         ];
 
-        // --- AI LOGIC (WITH DEMO FALLBACK) ---
-
-        // Mock responses for when API key is missing
-        function getMockResponse(type, context) {
-            if (type === 'matchup') {
-                return `**AI Demo Analysis:**
-* **Voter Appeal:** The first candidate appeals to traditional voters, while the second targets the business community in Sutrapur.
-* **Risk Factor:** The wealth gap is significant. Voters in Wari prefer stability, while Gandaria favors legacy.
-* **Verdict:** It will be a close fight, but organizational strength gives the heavyweight an edge.`;
-            } else {
-                return `**AI Demo Answer:**
-This is a simulated response because no API Key was provided.
-* **Fact:** ${context.includes('wealth') ? 'Wealth varies from 26L to 550L.' : 'Safety is a key concern in Old Dhaka.'}
-* **Insight:** Check the "Tactical Map" for zone-specific details.`;
-            }
-        }
-
-        async function callGemini(promptText, type) {
-            // Check if user provided key
-            if (!apiKey || apiKey === "") {
-                // Simulate delay for realism
-                await new Promise(r => setTimeout(r, 1500)); 
-                return getMockResponse(type, promptText);
-            }
-
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            const payload = { contents: [{ parts: [{ text: promptText }] }] };
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (!response.ok) throw new Error('API request failed');
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            } catch (error) {
-                console.error("Gemini Error:", error);
-                return "AI Service Unavailable. Please check your internet or API Key.";
-            }
-        }
-
-        async function analyzeMatchup() {
-            const idx1 = document.getElementById('comp-1').value;
-            const idx2 = document.getElementById('comp-2').value;
-            const c1 = candidates[idx1];
-            const c2 = candidates[idx2];
-
-            const box = document.getElementById('ai-analysis-box');
-            const content = document.getElementById('ai-content');
-            
-            box.classList.remove('hidden');
-            content.innerHTML = '<div class="flex justify-center p-4"><div class="loader"></div></div>';
-
-            const prompt = `Act as a political analyst for Dhaka-6. Compare: ${c1.name} (${c1.party}) vs ${c2.name} (${c2.party}). Focus on Wari/Sutrapur dynamics. Short bullet points.`;
-
-            const result = await callGemini(prompt, 'matchup');
-            content.innerHTML = marked.parse(result);
-        }
-
-        // --- CHATBOT LOGIC ---
-
-        function toggleChat() {
-            const chat = document.getElementById('chat-window');
-            chat.classList.toggle('hidden');
-            chat.classList.toggle('flex');
-        }
-
-        async function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            const msg = input.value.trim();
-            if (!msg) return;
-
-            const chatBox = document.getElementById('chat-messages');
-            
-            // User Message
-            chatBox.innerHTML += `
-                <div class="bg-heritage text-white p-3 rounded-lg rounded-tr-none ml-auto max-w-[85%] text-right">
-                    ${msg}
-                </div>
-            `;
-            input.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Loading
-            const loadingId = 'loading-' + Date.now();
-            chatBox.innerHTML += `
-                <div id="${loadingId}" class="bg-white p-3 rounded-lg rounded-tl-none border border-slate-100 shadow-sm max-w-[85%]">
-                    <i class="fas fa-circle-notch fa-spin text-heritage"></i> Analyzing...
-                </div>
-            `;
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Call AI
-            const reply = await callGemini(msg, 'chat');
-            
-            // Replace Loading with Reply
-            document.getElementById(loadingId).remove();
-            chatBox.innerHTML += `
-                <div class="bg-white p-3 rounded-lg rounded-tl-none border border-slate-100 shadow-sm max-w-[85%]">
-                    ${marked.parse(reply)}
-                </div>
-            `;
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        // --- STANDARD APP LOGIC ---
-
+        // --- 2. RENDER CANDIDATES ---
         function renderCards(filter) {
-            const container = document.getElementById('card-grid');
-            container.innerHTML = '';
+            const grid = document.getElementById('card-grid');
+            grid.innerHTML = '';
             
-            const filtered = filter === 'all' ? candidates : candidates.filter(c => c.type === filter);
+            const filtered = filter === 'all'? candidates : 
+                             filter === 'risk'? candidates.filter(c => c.riskType === 'critical') : candidates;
 
             filtered.forEach(c => {
-                // Determine Badge Color Class
-                let badgeClass = "bg-slate-100 text-slate-600";
-                if(c.badgeColor === 'red') badgeClass = "bg-red-100 text-red-700";
-                if(c.badgeColor === 'green') badgeClass = "bg-green-100 text-green-700";
-                if(c.badgeColor === 'blue') badgeClass = "bg-blue-100 text-blue-700";
-                if(c.badgeColor === 'indigo') badgeClass = "bg-indigo-100 text-indigo-700";
-                if(c.badgeColor === 'purple') badgeClass = "bg-purple-100 text-purple-700";
-                if(c.badgeColor === 'orange') badgeClass = "bg-orange-100 text-orange-700";
+                let badgeClass = c.riskType === 'critical'? 'bg-red-600 text-white animate-pulse' : 
+                                 c.riskType === 'warning'? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800';
+                
+                let iconClass = c.riskType === 'safe'? 'fa-check-circle' : 'fa-exclamation-triangle';
 
-                const card = `
-                <div class="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-2xl transition-all duration-300 group">
-                    <div class="h-2 bg-${c.color}"></div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${c.party}</span>
-                            <span class="${badgeClass} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${c.badge}</span>
-                        </div>
-                        
-                        <div class="flex items-center gap-3 mb-2">
-                             <i class="fas ${c.icon} text-slate-300 group-hover:text-${c.color} text-2xl transition"></i>
-                             <h3 class="text-xl font-bold text-slate-800">${c.name}</h3>
-                        </div>
-
-                        <div class="text-sm font-semibold text-${c.color} mb-4 flex items-center gap-2">
-                            <span class="text-xl">🗳️</span> ${c.symbolName}
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-2 text-sm mb-4 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                const html = `
+                <div class="bg-white rounded-xl shadow border border-slate-100 overflow-hidden hover:shadow-lg transition group relative">
+                    <div class="absolute top-0 right-0 ${badgeClass} text-[10px] font-bold px-2 py-1 rounded-bl">
+                        <i class="fas ${iconClass}"></i> ${c.risk}
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600">
+                                <i class="fas ${c.img}"></i>
+                            </div>
                             <div>
-                                <span class="block text-slate-400 text-xs">Wealth</span>
-                                <span class="font-bold text-slate-700">${c.wealth} Lakh</span>
-                            </div>
-                            <div class="text-right">
-                                <span class="block text-slate-400 text-xs">Cases</span>
-                                <span class="font-bold ${c.cases > 10 ? 'text-red-600' : 'text-green-600'}">${c.cases}</span>
+                                <h4 class="font-bold text-slate-800 leading-tight">${c.name}</h4>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase">${c.party}</p>
                             </div>
                         </div>
-
-                        <div class="space-y-2 text-sm">
-                            <p class="text-green-700 bg-green-50 p-2 rounded"><i class="fas fa-check-circle mr-1"></i> ${c.good}</p>
-                            <p class="text-red-700 bg-red-50 p-2 rounded"><i class="fas fa-exclamation-triangle mr-1"></i> ${c.bad}</p>
+                        
+                        <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                            <div class="bg-slate-50 p-2 rounded">
+                                <span class="block text-slate-400 text-[10px]">Wealth</span>
+                                <span class="font-bold text-slate-700">${c.wealth} L</span>
+                            </div>
+                            <div class="bg-slate-50 p-2 rounded">
+                                <span class="block text-slate-400 text-[10px]">Cases</span>
+                                <span class="font-bold ${c.cases > 0? 'text-red-500' : 'text-green-500'}">${c.cases}</span>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-slate-400 flex justify-between border-t border-slate-100 pt-2">
+                            <span>🎓 ${c.edu}</span>
+                            <span>💰 Tax: ${c.tax > 0? (c.tax/1000).toFixed(1)+'k' : '0'}</span>
                         </div>
                     </div>
-                </div>
-                `;
-                container.innerHTML += card;
+                </div>`;
+                grid.innerHTML += html;
             });
         }
 
-        function initComparison() {
-            const s1 = document.getElementById('comp-1');
-            const s2 = document.getElementById('comp-2');
-            
-            candidates.forEach((c, index) => {
-                const opt1 = new Option(c.name, index);
-                const opt2 = new Option(c.name, index);
-                s1.add(opt1);
-                s2.add(opt2);
-            });
-            
-            s1.selectedIndex = 0;
-            s2.selectedIndex = 1;
-            updateComparison();
+        function filterCards(type) {
+            renderCards(type);
         }
 
-        function updateComparison() {
-            const idx1 = document.getElementById('comp-1').value;
-            const idx2 = document.getElementById('comp-2').value;
-            const c1 = candidates[idx1];
-            const c2 = candidates[idx2];
-
-            const renderStats = (c, align) => `
-                <div class="h-auto min-h-[1.5rem] font-bold text-${c.color} text-sm md:text-lg mb-2 flex items-center justify-${align === 'left' ? 'start' : 'end'} text-wrap leading-tight">
-                    ${c.party}
-                </div>
-                <div class="h-6 font-semibold">${c.wealth} L</div>
-                <div class="h-6 font-semibold ${c.cases > 0 ? 'text-red-500' : 'text-green-500'}">${c.cases}</div>
-                <div class="h-6 font-semibold text-sm">${c.education}</div>
-            `;
-
-            document.getElementById('c1-stats').innerHTML = renderStats(c1, 'right');
-            document.getElementById('c2-stats').innerHTML = renderStats(c2, 'left');
-            
-            document.getElementById('ai-analysis-box').classList.add('hidden');
-        }
-
+        // --- 3. ANOMALY TRACKER (Chart) ---
         function initCharts() {
-            const sortedWealth = [...candidates].sort((a,b) => b.wealth - a.wealth);
-            new Chart(document.getElementById('wealthChart'), {
-                type: 'bar',
-                data: {
-                    labels: sortedWealth.map(c => c.name.split(' ')[0]),
-                    datasets: [{
-                        label: 'Declared Wealth (Lakhs)',
-                        data: sortedWealth.map(c => c.wealth),
-                        backgroundColor: '#9A3412',
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: {display: false} }
-                }
-            });
+            const ctx = document.getElementById('anomalyChart').getContext('2d');
+            
+            // Calculate "Years of Income Spent" (Budget / Annual Income)
+            const labels = candidates.map(c => c.name.split(' '));
+            const data = candidates.map(c => c.income > 0? (c.budget / c.income) : 0);
+            const colors = data.map(val => val > 1.5? '#ef4444' : '#10b981'); // Red if spending > 1.5x income
 
-            const sortedCrime = [...candidates].sort((a,b) => b.cases - a.cases);
-            new Chart(document.getElementById('crimeChart'), {
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: sortedCrime.map(c => c.name.split(' ')[0]),
-                    datasets: [{
-                        label: 'Total Cases',
-                        data: sortedCrime.map(c => c.cases),
-                        backgroundColor: sortedCrime.map(c => c.cases > 50 ? '#ef4444' : '#10b981'),
-                        borderRadius: 4
-                    }]
+                    labels: labels,
+                    datasets:
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: {display: false} },
-                    scales: { y: { type: 'logarithmic', title: {display: true, text: 'Log Scale (Due to high variation)'} } }
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            title: { display: true, text: 'Years of Income (Ratio)' },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
+        // --- 4. TAXPAYER LEADERBOARD ---
+        function renderLeaderboard() {
+            const sorted = [...candidates].sort((a,b) => b.tax - a.tax);
+            const tbody = document.getElementById('tax-table-body');
+            
+            sorted.forEach((c, index) => {
+                const row = `
+                <tr>
+                    <td class="p-2 font-bold text-slate-400">#${index + 1}</td>
+                    <td class="p-2 font-semibold text-slate-700">
+                        ${c.name} <span class="text-[9px] text-slate-400 block">${c.party}</span>
+                    </td>
+                    <td class="p-2 text-right font-mono text-slate-600">
+                        ${c.tax.toLocaleString()} ৳
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // --- 5. INTERACTIVE ZONE MAP ---
+        const zones = {
+            wari: {
+                title: "Zone: Wari (The Heritage Elite)",
+                desc: "Requires educated candidates who understand heritage preservation and urban planning. High preference for clean records.",
+                filter: (c) => c.zones.includes('wari')
+            },
+            sutrapur: {
+                title: "Zone: Sutrapur (The Mercantile Hub)",
+                desc: "Business protection is key. Voters prefer candidates with business backgrounds or strong local influence.",
+                filter: (c) => c.zones.includes('sutrapur')
+            },
+            gandaria: {
+                title: "Zone: Gandaria (The Heartland)",
+                desc: "Strong community bonds. Favors local residents and legacy families.",
+                filter: (c) => c.zones.includes('gandaria')
+            }
+        };
+
+        function filterByZone(zoneKey) {
+            const zone = zones[zoneKey];
+            const resultDiv = document.getElementById('zone-result');
+            const container = document.getElementById('zone-candidates');
+            
+            document.getElementById('zone-title').innerText = zone.title;
+            document.getElementById('zone-desc').innerText = zone.desc;
+            
+            container.innerHTML = '';
+            const matches = candidates.filter(zone.filter);
+            
+            matches.forEach(c => {
+                container.innerHTML += `
+                <div class="bg-slate-700 p-3 rounded flex items-center gap-3">
+                    <div class="text-2xl text-heritage"><i class="fas ${c.img}"></i></div>
+                    <div>
+                        <h5 class="font-bold text-white text-sm">${c.name}</h5>
+                        <p class="text-[10px] text-slate-400">${c.party} • ${c.edu}</p>
+                    </div>
+                </div>`;
+            });
+
+            resultDiv.classList.remove('hidden');
+        }
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             renderCards('all');
-            initComparison();
             initCharts();
-
-            // Allow Enter key in chat
-            document.getElementById('chat-input').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') sendChatMessage();
-            });
-
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.filter-btn').forEach(b => {
-                        b.classList.remove('bg-slate-900', 'text-white');
-                        b.classList.add('bg-slate-200', 'text-slate-600');
-                    });
-                    e.target.classList.remove('bg-slate-200', 'text-slate-600');
-                    e.target.classList.add('bg-slate-900', 'text-white');
-                    renderCards(e.target.dataset.filter);
-                });
-            });
-            
-            // Check API Key for UI status
-            if(!apiKey) {
-                const status = document.getElementById('api-status');
-                if(status) status.innerHTML = 'Powered by Gemini ✨';
-            }
+            renderLeaderboard();
         });
 
     </script>
 </body>
 </html>
-
