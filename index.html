@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dhaka-6 Election Intelligence Unit | 2026</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{font-family:Arial;background:#f4f6f9;margin:0}
+header{background:#1e293b;color:white;padding:25px;text-align:center}
+.container{padding:20px;max-width:1100px;margin:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
+.card{background:white;padding:18px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.08)}
+.section{margin-top:40px}
+h2{margin-bottom:10px}
+.zonebtn{padding:10px 18px;margin:5px;border:none;border-radius:6px;background:#334155;color:white;cursor:pointer}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Dhaka-6 Election Intelligence Unit</h1>
+<p>Gendaria • Sutrapur • Kotwali • Bangshal | 2026</p>
+</header>
+
+<div class="container">
+
+<!-- Candidate Radar -->
+<div class="section">
+<h2>Candidate Radar</h2>
+<div class="grid" id="candidateCards"></div>
+</div>
+
+<!-- Charts -->
+<div class="section">
+<h2>Forensic Analysis</h2>
+<canvas id="wealthChart"></canvas>
+</div>
+
+<!-- Zone Analysis -->
+<div class="section">
+<h2>Tactical Zone Map</h2>
+<button class="zonebtn" onclick="showZone('gendaria')">Gendaria</button>
+<button class="zonebtn" onclick="showZone('sutrapur')">Sutrapur</button>
+<button class="zonebtn" onclick="showZone('kotwali')">Kotwali</button>
+<button class="zonebtn" onclick="showZone('bangshal')">Bangshal</button>
+
+<div id="zoneContent" class="card" style="margin-top:15px"></div>
+</div>
+
+</div>
+
+<script>
+
+const candidates=[
+{name:"Ishraq Hossain",party:"BNP",income:129,wealth:556,cases:5,tag:"Political Heir"},
+{name:"Abdul Mannan",party:"Jamaat",income:7,wealth:48,cases:21,tag:"Organizational Strength"},
+{name:"Fakhrul Islam",party:"Gono Odhikar",income:5,wealth:20,cases:0,tag:"Youth Candidate"},
+{name:"Amiruddin Ahmed Dalu",party:"Jatiya Party",income:12,wealth:60,cases:0,tag:"Experienced"},
+{name:"Ahmed Ali Sheikh",party:"Gonofront",income:6,wealth:30,cases:0,tag:"Symbolic"}
+];
+
+const zones={
+gendaria:"High trader and traditional BNP vote bank. Traffic and extortion key issues.",
+sutrapur:"Mixed middle-income voters. Youth vote influence rising.",
+kotwali:"Commercial dense zone. Business security major issue.",
+bangshal:"Wholesale market area. Organized voter turnout decides result."
+};
+
+const carddiv=document.getElementById("candidateCards");
+candidates.forEach(c=>{
+carddiv.innerHTML+=`
+<div class="card">
+<h3>${c.name}</h3>
+<p><b>${c.party}</b></p>
+<p>Income: ${c.income} lakh</p>
+<p>Wealth: ${c.wealth} lakh</p>
+<p>Cases: ${c.cases}</p>
+<p>${c.tag}</p>
+</div>`;
+});
+
+new Chart(document.getElementById("wealthChart"),{
+type:'scatter',
+data:{
+datasets:candidates.map(c=>({
+label:c.name,
+data:[{x:c.income,y:c.wealth}],
+pointRadius:8
+}))
+},
+options:{
+scales:{
+x:{title:{display:true,text:'Income'}},
+y:{title:{display:true,text:'Wealth'}}
+}
+}
+});
+
+function showZone(z){
+document.getElementById("zoneContent").innerHTML=zones[z];
+}
+
+</script>
+
+</body>
+</html>
